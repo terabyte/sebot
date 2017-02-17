@@ -2,6 +2,7 @@
 
 // Standard node.js modules
 var exec = require("child_process").exec;
+var spawn = require("child_process").spawn;
 var util = require("util");
 var fs = require("fs");
 var path = require("path");
@@ -19,14 +20,21 @@ require("g")("log5");
 var app = http.createServer(function onRequest (req, res) {
 	var u = url.parse(req.url)
 	var path = u.pathname
-	I(req.method+" "+path);
 
 	if(path.startsWith("/api/")) {
 		var qa = querystring.parse(u.query)
 		I("API: "+o2j(qa))
+
+		
+		var p = spawn( "python", [ "./request.py" ] )
+
+		req.pipe(p.stdin);
+		p.stdout.pipe(res);
+
 		return
 	}
 
+	I(req.method+" "+path);
 	send(req, "./site"+path).pipe(res)		// send static file
 
 }).listen(12345)
