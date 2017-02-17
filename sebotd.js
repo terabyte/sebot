@@ -21,7 +21,7 @@ var app = http.createServer(function(req, res) {
 	var u = url.parse(req.url)
 	var path = u.pathname
 
-	if(path.startsWith("/api/")) {
+	if(path == "/api/") {
 		var qa = querystring.parse(u.query)
 		I("API: "+o2j(qa))
 
