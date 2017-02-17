@@ -1,8 +1,7 @@
 # sebot
 
 
-request.py
------------
+## request.py
 	
 The script that is run on every request to "/api/".
 It takes a JSON object as input and produces a JSON object as output
@@ -22,8 +21,7 @@ The output should look like:
 	}
 
 
-Examples
---------
+### Examples
 
 Request the first question and array of answers for an SE dialogue about karma:
 
