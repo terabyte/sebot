@@ -13,5 +13,9 @@
   "bugs": {
     "url": "https://github.com/JoeHitchens/sebot/issues"
   },
-  "homepage": "https://github.com/JoeHitchens/sebot#readme"
+  "homepage": "https://github.com/JoeHitchens/sebot#readme",
+  "dependencies": {
+    "log5": "^2.0.0",
+    "sleepless": "^2.4.7"
+  }
 }
