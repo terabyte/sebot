@@ -83,7 +83,8 @@ will be.
 This is the webserver.
 It's written for node.js
 It handles http requests and delivers files from the html root in "site" directory.
-If any requests for "/api/....." are made, python is executed in a separate process to
+If any requests for "/api" are made (e.g., "/api/?action=start&topic=karma"),
+python is executed in a separate process to
 run request.py, passing a JSON object as input built from the query args of the request.
 The response JSON from from request.py is returned directly as the body of the HTTP response.
 
