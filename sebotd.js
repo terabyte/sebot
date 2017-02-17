@@ -17,7 +17,7 @@ var send = require("send");
 require("sleepless")
 require("g")("log5");
 
-var app = http.createServer(function onRequest (req, res) {
+var app = http.createServer(function(req, res) {
 	var u = url.parse(req.url)
 	var path = u.pathname
 
@@ -25,11 +25,20 @@ var app = http.createServer(function onRequest (req, res) {
 		var qa = querystring.parse(u.query)
 		I("API: "+o2j(qa))
 
-		
-		var p = spawn( "python", [ "./request.py" ] )
+		res.writeHead(200, {"Content-Type": "application/json" });
 
-		req.pipe(p.stdin);
+		var p = spawn( "/usr/bin/python", [ "request.py" ])
+
+		p.stdin.write(o2j(qa));
 		p.stdout.pipe(res);
+		p.stdin.end();
+
+		p.on("close", function(code) {
+			if(code != 0) {
+				E("Python return code: "+code);
+			}
+			res.end();
+		});
 
 		return
 	}
