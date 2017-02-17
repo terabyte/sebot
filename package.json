@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/JoeHitchens/sebot#readme",
   "dependencies": {
+    "jquery": "^3.1.1",
     "log5": "^2.0.0",
     "sleepless": "^2.4.7"
   }
