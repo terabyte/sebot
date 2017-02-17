@@ -37,13 +37,37 @@ Input:
 Output:
 
 	{
-		eror: null,
+		error: null,
 		data: {
 			id: "KARMA_1",
 			question: "How do you define karma?",
 			answers: [
 				"What goes around, comes around.",
 				"If you good things, you will be rewarded, but if you do bad things ...",
+			]
+		}
+	}
+
+Report the response chosen by the user and get the data for the next question to ask:
+
+Input:
+
+	{
+		action: "chosen",
+		question_id: "KARMA_1",
+		answer: 2,
+	}
+
+Output:
+
+	{
+		error: null,
+		data: {
+			id: "KARMA_1_1",
+			question: "What is a good example of how karma has worked in your life?",
+			answers: [
+				"I once littered, and then my face broke out."
+				"One time I opened the door for someone and then I found a $20 bill",
 			]
 		}
 	}
