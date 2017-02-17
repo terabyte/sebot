@@ -24,8 +24,10 @@ var app = http.createServer(function onRequest (req, res) {
 	if(path.startsWith("/api/")) {
 		var qa = querystring.parse(u.query)
 		I("API: "+o2j(qa))
+		return
 	}
 
-	send(req, u.pathname).pipe(res)
+	send(req, "./site"+path).pipe(res)		// send static file
+
 }).listen(12345)
 
