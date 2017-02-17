@@ -17,6 +17,8 @@ var send = require("send");
 require("sleepless")
 require("g")("log5");
 
+var PORT = toInt(process.argv[2]) || 12345
+
 var app = http.createServer(function(req, res) {
 	var u = url.parse(req.url)
 	var path = u.pathname
@@ -46,5 +48,7 @@ var app = http.createServer(function(req, res) {
 	I(req.method+" "+path);
 	send(req, "./site"+path).pipe(res)		// send static file
 
-}).listen(12345)
+}).listen(PORT, function() {
+	I("Listening on "+PORT);
+})
 
