@@ -7,6 +7,7 @@ var fs = require("fs");
 var path = require("path");
 var http = require('http')
 var url = require("url")
+var querystring = require('querystring');
 
 // 3rd partynode.js modules
 var send = require("send");
@@ -16,8 +17,15 @@ require("sleepless")
 require("g")("log5");
 
 var app = http.createServer(function onRequest (req, res) {
-	var u = url.parse(req);
-	I("u="+o2j(u));
+	var u = url.parse(req.url)
+	var path = u.pathname
+	I(req.method+" "+path);
+
+	if(path.startsWith("/api/")) {
+		var qa = querystring.parse(u.query)
+		I("API: "+o2j(qa))
+	}
+
 	send(req, u.pathname).pipe(res)
 }).listen(12345)
 
