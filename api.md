@@ -5,6 +5,9 @@ This defines the API.
 It describes the various inputs that request.py will accept and what the responses
 will be.
 
+	- sq_id = Socratic question ID
+	- ir_id = Interlocuter response ID
+
 ## Regular API calls
 
 Regular API calls.
@@ -30,7 +33,7 @@ Output:
 			{
 				topic: "karma",	
 				description: "Let's talk about karma!",
-				first_question_id: "KARMA_1"
+				first_sq_id: "KARMA_1"
 			}
 		}
 	}
