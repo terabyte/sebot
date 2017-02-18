@@ -46,11 +46,14 @@ Output:
 	{
 		error: null,
 		data: {
-			id: "KARMA_1_1",
-			question: "What is a good example of how karma has worked in your life?",
-			answers: [
-				{ text: "I once littered, and then my face broke out.", next_question_id: "KARMA_1_1_1" },
-				{ text: "One time I opened the door for someone and then I found a $20 bill", next_question_id: "KARMA_1_1_2" }
+			id: "KARMA_1",		// universally unique tag for this question
+			question: "Do you think karma is real?",	// the text of the socratic question to ask
+			answers: [	
+				// ordered list of answers that the user can choose from.
+				// each object has text to display & id for the question to load if chosen.
+				{ text: "Yes.", next_question_id: "KARMA_1_1" },
+				{ text: "No.", next_question_id: "KARMA_1_2" },
+				{ text: "I'm not sure.", next_question_id: "KARMA_1_3" },
 			]
 		}
 	}
@@ -60,14 +63,11 @@ or:
 	{
 		error: null,
 		data: {
-			id: "KARMA_1",		// universally unique tag for this question
-			question: "Do you think karma is real?",	// the text of the socratic question to ask
-			answers: [	
-				// ordered list of answers that the user can choose from.
-				// each object has text to display & id for the question to load if chosen.
-				{ text: "Yes.", next_question_id: "KARMA_1_1" },
-				{ text: "No.", next_question_id: "KARMA_1_2" },
-				{ text: "I'm not sure.", next_question_id: "KARMA_1_3" },
+			id: "KARMA_1_1",
+			question: "What is a good example of how karma has worked in your life?",
+			answers: [
+				{ text: "I once littered, and then my face broke out.", next_question_id: "KARMA_1_1_1" },
+				{ text: "One time I opened the door for someone and then I found a $20 bill", next_question_id: "KARMA_1_1_2" }
 			]
 		}
 	}
