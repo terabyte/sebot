@@ -94,7 +94,31 @@ Output:
 	}
 
 
-### admin_LinkResponse
+## Admin API calls
+
+These calls are for doing things to the data, like linking responses to questions, 
+creating and deleting questions, adding responses, etc.
+
+
+### createQuestion
+
+Create a new socratic question.
+
+Input:
+
+	{
+		action: "createQuestion",
+		text: "Are there any other possible explanations besides karma that could account ...",
+	}
+
+Output:
+
+	{
+		error: null,
+		question_id: "KARMA_3_2_2_1"			// the id of the newly created question
+	}
+
+
 
 
 
