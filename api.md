@@ -78,8 +78,8 @@ or:
 			id: <ID>,
 			question: "What is a good example of how karma has worked in your life?",
 			responses: [
-				{ text: "I once littered, and then my face broke out.", next_sq_id: <ID> },
-				{ text: "One time I opened the door for someone and then I found a $20 bill", next_sq_id: <ID> }
+				{ ir_id: <ID>, text: "I once littered, and then my face broke out.", next_sq_id: <ID> },
+				{ ir_id: <ID>, text: "One time I opened the door for someone and then I found a $20 bill", next_sq_id: <ID> }
 			]
 		}
 	}
@@ -121,6 +121,13 @@ Input:
 	{
 		action: "createQuestion",
 		text: "Are there any other possible explanations besides karma that could account ...",
+		responses: [		// this may be empty array
+			{
+				text: "[text of the response]",
+				next_sq_id: <ID>		// null = not yet linked to a "next" sq
+			},
+			...
+		]
 	}
 
 Output:
@@ -140,7 +147,14 @@ Input:
 	{
 		action: "updateQuestion",
 		sq_id: <ID>,
-		text: "Is there anything else that could explain ..."
+		text: "[text of the SQ]",
+		responses: [		// this may be empty array
+			{
+				text: "[text of the response]",
+				next_sq_id: <ID>		// null = not yet linked to a "next" sq
+			},
+			...
+		]
 	}
 
 Output:
@@ -167,10 +181,5 @@ Output:
 	{
 		error: null,
 	}
-
-
-
-
-
 
 
