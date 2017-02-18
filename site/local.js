@@ -171,10 +171,20 @@ clk_delete_response = function(evt) {
 }
 
 
-clk_toggle_active = function(evt, rsp) {
+clk_toggle_active = function(evt) {
 	var rsp = cur_rsp
 	if(rsp && rsp !== "other") {
 		api("updateIR", { ir_id: rsp.ir_id, text: rsp.text, active: (!rsp.active) }, function(r) {
+			reload()
+		})
+	}
+}
+
+clk_edit_response = function(evt) {
+	var rsp = cur_rsp
+	if(rsp && rsp !== "other") {
+		var txt = prompt("Edit the text of this response", rsp.text);
+		api("updateIR", { ir_id: rsp.ir_id, text: txt }, function(r) {
 			reload()
 		})
 	}
@@ -231,7 +241,7 @@ load_qst = function(qid) {
 				a.push(rsps[k])
 			}
 			replicate("tpl_rsp", a, function(e, d, i) {
-				e.rsp = d
+				//e.rsp = d
 				$(e).find("input[type=radio]").change(function() {
 					$("#other").hide();
 					cur_rsp = d;
