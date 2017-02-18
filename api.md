@@ -105,6 +105,9 @@ creating and deleting questions, adding responses, etc.
 
 ### createSQ
 
+Create a new SQ.
+The text field is required.
+
 Input:
 
 	{
@@ -121,6 +124,8 @@ Output:
 
 
 ### updateSQ
+
+Modify an existing SQ.
 
 Input:
 
@@ -155,6 +160,10 @@ Output:
 
 ### createIR
 
+Create a new IR.
+The text field is required.
+If active field is optional; if absent, active will default to false.
+
 Input:
 
 	{
@@ -174,11 +183,15 @@ Output:
 
 ### updateIR
 
+Modify an existing IR.
+If the text field is present, the text of the IR is changed.
+If the active field is present, the active flag is changed.
+
 Input:
 
 	{
 		action: "updateIR",
-		ir_id: <ID>,				// ID of the IR 
+		ir_id: <ID>,				// ID of the IR to change
 		text: "[text of the IR]",	// new text
 		active: true | false		// new state of the active flag
 	}
@@ -196,7 +209,7 @@ Input:
 
 	{
 		action: "deleteIR",
-		iq_id: <ID>,			// ID of the IR
+		iq_id: <ID>,			// ID of the IR to delete
 	}
 
 Output:
