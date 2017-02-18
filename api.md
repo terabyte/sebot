@@ -5,8 +5,8 @@ This defines the API.
 It describes the various inputs that request.py will accept and what the responses
 will be.
 
-	* sq_id = Socratic question ID
-	* ir_id = Interlocuter response ID
+* sq_id = Socratic question ID
+* ir_id = Interlocuter response ID
 
 ## Regular API calls
 
