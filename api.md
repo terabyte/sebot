@@ -73,19 +73,18 @@ or:
 	}
 
 
-### responseChosen
+### otherResponse
 
-Tell the server that the user chose a response to a question. 
-This can probably be ignored for now, but will likely prove useful in terms of
-deciding if some responses are better than others, or leaving a trail of 
-that can be analyzed later to see the most common paths through the map.
+Submit a new, proposed response to a question.
+When a user doesn't like any of the responses, they can enter their own for
+manual analysis and possible incorporation into the data.
 
 Input:
 
 	{
-		action: "responseChosen",
-		question_id: "KARMA_1",
-		choice: 2,
+		action: "otherResponse",
+		question_id: "KARMA_1_1",
+		text: "When I have negative thoughts, bad things happen to me",
 	}
 
 Output:
@@ -93,6 +92,4 @@ Output:
 	{
 		error: null,
 	}
-
-
 
