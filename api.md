@@ -32,7 +32,7 @@ Output:
 
 ### getQuestion
 
-Get a question and the existing responsed for it given it's ID.
+Get a question and it's associated responses.
 
 Input:
 
