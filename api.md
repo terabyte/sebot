@@ -12,7 +12,7 @@ Input:
 
 	{
 		action: "start",
-		topic: *string*,		// The topic to be explored, such as karma, jesus, aliens
+		topic: "karma",		// The topic to be explored, such as karma, jesus, aliens
 	}
 
 Output:
@@ -20,25 +20,42 @@ Output:
 	{
 		error: null,
 		data: {
-			id: *string*,		// universally unique tag for this question
-			question: *string*,	// the text of the socratic question to ask
+			id: "KARMA_1",		// universally unique tag for this question
+			question: "Do you think karma is real?",	// the text of the socratic question to ask
 			answers: [			// ordered list of answers that the user can choose from
-				*string*,	
-				*string*,
-				[...]
+				{ text: "Yes.", next_question_id: "KARMA_1_1" },
+				{ text: "No.", next_question_id: "KARMA_1_2" },
+				{ text: "I'm not sure.", next_question_id: "KARMA_1_3" },
 			]
 		}
 	}
 
 
-### chosen
+### responseChosen
 
 Input:
 
 	{
-		action: "chosen",
+		action: "responseChosen",
 		question_id: "KARMA_1",
-		answer: 2,
+		choice: 2,
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
+
+### getQuestion
+
+Input:
+
+	{
+		action: "getQuestion",
+		question_id: "KARMA_1_1",
 	}
 
 Output:
@@ -49,10 +66,9 @@ Output:
 			id: "KARMA_1_1",
 			question: "What is a good example of how karma has worked in your life?",
 			answers: [
-				"I once littered, and then my face broke out."
-				"One time I opened the door for someone and then I found a $20 bill",
+				{ text: "I once littered, and then my face broke out.", next_question_id: "KARMA_1_1_1" },
+				{ text: "One time I opened the door for someone and then I found a $20 bill", next_question_id: "KARMA_1_1_2" }
 			]
 		}
 	}
-
 
