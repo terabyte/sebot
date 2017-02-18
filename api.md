@@ -7,6 +7,9 @@ will be.
 
 * sq_id = Socratic question ID
 * ir_id = Interlocuter response ID
+* ID = some sort of unique identifier
+
+
 
 ## Regular API calls
 
@@ -33,7 +36,7 @@ Output:
 			{
 				topic: "karma",	
 				description: "Let's talk about karma!",
-				first_sq_id: "KARMA_1"
+				first_sq_id: <ID>
 			}
 		}
 	}
@@ -47,7 +50,7 @@ Input:
 
 	{
 		action: "getQuestion",
-		question_id: "KARMA_1_1",
+		sq_id: <ID>,
 	}
 
 Output:
@@ -55,14 +58,14 @@ Output:
 	{
 		error: null,
 		data: {
-			id: "KARMA_1",		// universally unique tag for this question
-			question: "Do you think karma is real?",	// the text of the socratic question to ask
-			answers: [	
-				// ordered list of answers that the user can choose from.
+			sq_id: <ID>,		// universally unique tag for this question
+			text: "Do you think karma is real?",	// the text of the socratic question to ask
+			responses: [	
+				// ordered list of responses that the user can choose from.
 				// each object has text to display & id for the question to load if chosen.
-				{ text: "Yes.", next_question_id: "KARMA_1_1" },
-				{ text: "No.", next_question_id: "KARMA_1_2" },
-				{ text: "I'm not sure.", next_question_id: "KARMA_1_3" },
+				{ ir_id: <ID>, text: "Yes.", next_sq_id: <ID> },
+				{ ir_id: <ID>, text: "No.", next_sq_id: <ID> },
+				{ ir_id: <ID>text: "I'm not sure.", next_sq_id: <ID> },
 			]
 		}
 	}
@@ -72,11 +75,11 @@ or:
 	{
 		error: null,
 		data: {
-			id: "KARMA_1_1",
+			id: <ID>,
 			question: "What is a good example of how karma has worked in your life?",
-			answers: [
-				{ text: "I once littered, and then my face broke out.", next_question_id: "KARMA_1_1_1" },
-				{ text: "One time I opened the door for someone and then I found a $20 bill", next_question_id: "KARMA_1_1_2" }
+			responses: [
+				{ text: "I once littered, and then my face broke out.", next_sq_id: <ID> },
+				{ text: "One time I opened the door for someone and then I found a $20 bill", next_sq_id: <ID> }
 			]
 		}
 	}
@@ -92,7 +95,7 @@ Input:
 
 	{
 		action: "otherResponse",
-		question_id: "KARMA_1_1",
+		sq_id: <ID>,
 		text: "When I have negative thoughts, bad things happen to me",
 	}
 
@@ -124,7 +127,7 @@ Output:
 
 	{
 		error: null,
-		question_id: "KARMA_3_2_2_1"			// the id of the newly created question
+		sq_id: <ID>			// the id of the newly created question
 	}
 
 
@@ -136,7 +139,7 @@ Input:
 
 	{
 		action: "updateQuestion",
-		question_id: "KARMA_3_2_2_1",
+		sq_id: <ID>,
 		text: "Is there anything else that could explain ..."
 	}
 
@@ -156,7 +159,7 @@ Input:
 
 	{
 		action: "deleteQuestion",
-		question_id: "KARMA_3_2_2_1",
+		sq_id: <ID>,
 	}
 
 Output:
