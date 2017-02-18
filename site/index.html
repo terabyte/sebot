@@ -2,12 +2,35 @@
 <head>
 	<link rel="icon" href="">
 	<link href="./local.css" rel="stylesheet" type="text/css">
+	<script src="./jquery.js"></script>
+	<script src="./sleepless.js"></script>
+	<script src="./replicate.js"></script>
 	<script src="./local.js"></script>
 </head>
 <body>
 
 	<h1>SEBOT</h1>
 
+	<hr>
+
+	<div class=note>
+		Select the best answer or enter your own if none of them seems appropriate.
+	</div>
+
+	<div id=tpl_qst class=qst>
+		__text__
+	</div>
+
+	<div id=tpl_rsp class=rsp>
+		<input type=radio name=rsp data="__ir_id__"> __text__<br>
+	</div>
+	<div id=tpl_rsp_other class=rsp>
+		<input type=radio name=rsp data="other"> Other <br>
+	</div>
+	<textarea id=other class=other placeholder="Enter your response"></textarea>
+
+	<p>	
+	<input type=button value="Continue">
 
 </body>
 
