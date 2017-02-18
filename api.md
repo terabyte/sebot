@@ -5,6 +5,12 @@ This defines the API.
 It describes the various inputs that request.py will accept and what the responses
 will be.
 
+## Regular API calls
+
+Regular API calls.
+These are the functions that are used when the system is actually engaging in a
+socratic dialogue.
+
 
 ### getTopics
 
@@ -117,6 +123,46 @@ Output:
 		error: null,
 		question_id: "KARMA_3_2_2_1"			// the id of the newly created question
 	}
+
+
+### updateQuestion
+
+Modify an existing socratic question.
+
+Input:
+
+	{
+		action: "updateQuestion",
+		question_id: "KARMA_3_2_2_1",
+		text: "Is there anything else that could explain ..."
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
+### deleteQuestion
+
+Remove an existing socratic question.
+[ Note: links are going to break here ... server should cope somehow ]
+
+Input:
+
+	{
+		action: "deleteQuestion",
+		question_id: "KARMA_3_2_2_1",
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
 
 
 
