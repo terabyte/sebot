@@ -2,6 +2,8 @@
 
 log = function(s) { console.log(s); }
 
+///////////////////////////////
+
 db = {
 	seq: 10,
 	topics: {
@@ -34,13 +36,26 @@ fetch_qst = function(qid) {
 	return db.questions[qid] || null
 }
 
+fetch_rsp = function(rid) {
+	var qo = db.questions
+	for(var qid in qo) {
+		var ro = qo[qid].responses
+		for(var i = 0; i < ro.length; i++) {
+			var rsp = ro[i];
+			if(rsp.ir_id == rid) {
+				return rsp
+			}
+		}
+	}
+	return null
+}
 
 // stub calls that simulate the backend api calls
-act_getSQ = function(data, cb) {
+api_getSQ = function(data, cb) {
 	cb({ error: null, data: db.questions[data.sq_id] });
 }
 
-act_createIR = function(data, cb) {
+api_createIR = function(data, cb) {
 	var qst = fetch_qst(data.sq_id);
 	if(!qst) {
 		cb( { error:"error" } )
@@ -55,11 +70,11 @@ act_createIR = function(data, cb) {
 		}
 		qst.responses.push(rsp)
 		db_save()
-		cb({error:null, ir_id:rid})
+		cb({ir_id:rid})
 	}
 }
 
-act_deleteIR = function(data, cb) {
+api_deleteIR = function(data, cb) {
 	var qo = db.questions
 	for(var qid in qo) {
 		var ro = qo[qid].responses
@@ -73,18 +88,40 @@ act_deleteIR = function(data, cb) {
 			}
 		}
 	}
-	cb( { error:null } )
+	cb({})
 }
 
-////////////////////////////////
+api_updateIR = function(data, cb) {
+	var rsp = fetch_rsp(data.ir_id);
+	if(!rsp) {
+		cb( { error:"error" } )
+	}
+	else {
+		if(data.text !== undefined) {
+			rsp.text = data.text
+		}
+		if(data.active !== undefined) {
+			rsp.active = data.active
+		}
+		db_save()
+		log("found and updated rsp")
+		cb({})
+	}
+}
+
+////////////////////////////////////////////
 
 cur_qst = null		// the currently displayed question
 cur_rsp = null		// the current choice or null
 
 api = function(act, data, cb) {
-	log("API: "+act+", "+o2j(data))
+
 	// $.ajax(....)
-	window[ "act_" + act ](data, function(r) {
+	// XXX call stub functions until real API is in place
+	var k = "api_" + act
+	log(k+"()")
+	var f = window[ k ]
+	f(data, function(r) {
 		if(r.error) {
 			alert("API Error: "+r.error)
 		}
@@ -92,6 +129,7 @@ api = function(act, data, cb) {
 			cb(r)
 		}
 	})
+
 }
 
 clk_new_topic = function(evt) {
@@ -124,15 +162,30 @@ clk_continue = function(evt) {
 }
 
 clk_delete_response = function(evt) {
-	log("del rsp "+$(evt.target).attr("data"));
-	var rid = $(evt.target).attr("data")
-	api("deleteIR", {ir_id:rid}, function(r) {
-		reload()
-	})
+	var rsp = cur_rsp
+	if(rsp && rsp !== "other") {
+		api("deleteIR", { ir_id: rsp.ir_id }, function(r) {
+			reload()
+		})
+	}
 }
 
+
+clk_toggle_active = function(evt, rsp) {
+	var rsp = cur_rsp
+	if(rsp && rsp !== "other") {
+		api("updateIR", { ir_id: rsp.ir_id, text: rsp.text, active: (!rsp.active) }, function(r) {
+			reload()
+		})
+	}
+}
+
+
 clk = function(evt) {
-	window[ "clk_" + this.value.toId() ](evt);
+	var k = "clk_" + evt.target.value.toId()
+	log(k+"()")
+	var f = window[ k ]
+	f.apply(this, arguments)
 }
 
 $(document).ready(function() {
@@ -178,11 +231,12 @@ load_qst = function(qid) {
 				a.push(rsps[k])
 			}
 			replicate("tpl_rsp", a, function(e, d, i) {
+				e.rsp = d
 				$(e).find("input[type=radio]").change(function() {
 					$("#other").hide();
 					cur_rsp = d;
 				});
-				$(e).find("input[type=button]").click(clk)
+				//$(e).find("input[type=button]").click(clk, d)
 			})
 		}
 	});
