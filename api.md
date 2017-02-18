@@ -73,30 +73,6 @@ Output:
 	}
 
 
-### otherResponse
-
-Submit a new, proposed response to a question.
-When a user doesn't like any of the responses, they can enter their own for
-manual analysis and possible incorporation into the data.
-This will be added as a new response to the question, but with the "active" flag set to false.
-Inactive responses are only shown to admins, who have the power to edit them,
-and then flip the flag to true in order to make them visible to regular users.
-
-Input:
-
-	{
-		action: "otherResponse",
-		sq_id: <ID>,		// ID of SQ that this new response should be attached
-		text: "[ text of user's other response ]",
-	}
-
-Output:
-
-	{
-		error: null,
-	}
-
-
 ## Admin API calls
 
 These calls are for doing things to the data, like linking responses to questions, 
