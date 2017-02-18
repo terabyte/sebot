@@ -5,9 +5,11 @@ This defines the API.
 It describes the various inputs that request.py will accept and what the responses
 will be.
 
+* SQ = Socratic question
+* IR = Interlocutor response
 * sq_id = Socratic question ID
 * ir_id = Interlocuter response ID
-* ID = some sort of unique identifier
+* ID = Some sort of unique identifier
 
 
 
@@ -42,14 +44,14 @@ Output:
 	}
 
 
-### getQuestion
+### getSQ
 
 Get a question and it's associated responses.
 
 Input:
 
 	{
-		action: "getQuestion",
+		action: "getSQ",
 		sq_id: <ID>,
 	}
 
@@ -61,25 +63,11 @@ Output:
 			sq_id: <ID>,		// universally unique tag for this question
 			text: "Do you think karma is real?",	// the text of the socratic question to ask
 			responses: [	
-				// ordered list of responses that the user can choose from.
-				// each object has text to display & id for the question to load if chosen.
-				{ ir_id: <ID>, text: "Yes.", next_sq_id: <ID> },
-				{ ir_id: <ID>, text: "No.", next_sq_id: <ID> },
-				{ ir_id: <ID>text: "I'm not sure.", next_sq_id: <ID> },
-			]
-		}
-	}
-
-or:
-
-	{
-		error: null,
-		data: {
-			id: <ID>,
-			question: "What is a good example of how karma has worked in your life?",
-			responses: [
-				{ ir_id: <ID>, text: "I once littered, and then my face broke out.", next_sq_id: <ID> },
-				{ ir_id: <ID>, text: "One time I opened the door for someone and then I found a $20 bill", next_sq_id: <ID> }
+				// ordered list of responses.
+				// each has the text to display and an ID for the next question to load if chosen.
+				{ ir_id: <ID>, active: true, text: "Yes.", next_sq_id: <ID> },
+				{ ir_id: <ID>, active: true, text: "No.", next_sq_id: <ID> },
+				{ ir_id: <ID>, active: true, text: "I'm not sure.", next_sq_id: <ID> },
 			]
 		}
 	}
@@ -90,13 +78,16 @@ or:
 Submit a new, proposed response to a question.
 When a user doesn't like any of the responses, they can enter their own for
 manual analysis and possible incorporation into the data.
+This will be added as a new response to the question, but with the "active" flag set to false.
+Inactive responses are only shown to admins, who have the power to edit them,
+and then flip the flag to true in order to make them visible to regular users.
 
 Input:
 
 	{
 		action: "otherResponse",
-		sq_id: <ID>,
-		text: "When I have negative thoughts, bad things happen to me",
+		sq_id: <ID>,		// ID of SQ that this new response should be attached
+		text: "[ text of user's other response ]",
 	}
 
 Output:
@@ -112,22 +103,16 @@ These calls are for doing things to the data, like linking responses to question
 creating and deleting questions, adding responses, etc.
 
 
-### createQuestion
+### createSQ
 
-Create a new socratic question.
+Create a new SQ.
+The text field is required.
 
 Input:
 
 	{
-		action: "createQuestion",
-		text: "Are there any other possible explanations besides karma that could account ...",
-		responses: [		// this may be empty array
-			{
-				text: "[text of the response]",
-				next_sq_id: <ID>		// null = not yet linked to a "next" sq
-			},
-			...
-		]
+		action: "createSQ",
+		text: "[ text of the SQ ]"		// text of the SQ
 	}
 
 Output:
@@ -138,23 +123,16 @@ Output:
 	}
 
 
-### updateQuestion
+### updateSQ
 
-Modify an existing socratic question.
+Modify an existing SQ.
 
 Input:
 
 	{
-		action: "updateQuestion",
-		sq_id: <ID>,
-		text: "[text of the SQ]",
-		responses: [		// this may be empty array
-			{
-				text: "[text of the response]",
-				next_sq_id: <ID>		// null = not yet linked to a "next" sq
-			},
-			...
-		]
+		action: "updateSQ",
+		sq_id: <ID>,				// ID of the SQ to update
+		text: "[text of the SQ]",	// new text for the SQ
 	}
 
 Output:
@@ -164,16 +142,74 @@ Output:
 	}
 
 
-### deleteQuestion
-
-Remove an existing socratic question.
-[ Note: links are going to break here ... server should cope somehow ]
+### deleteSQ
 
 Input:
 
 	{
-		action: "deleteQuestion",
-		sq_id: <ID>,
+		action: "deleteSQ",
+		sq_id: <ID>,			// ID of the SQ to delete
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
+### createIR
+
+Create a new IR.
+The text field is required.
+If active field is optional; if absent, active will default to false.
+
+Input:
+
+	{
+		action: "createIR",
+		sq_id: <ID>,				// ID of SQ to add this IR to
+		text: "[ text of IR ]",		// of new IR
+		active: true | false		// new state of the active flag
+	}
+
+Output:
+
+	{
+		error: null,
+		ir_id: <ID>			// ID of the newly created IR
+	}
+
+
+### updateIR
+
+Modify an existing IR.
+If the text field is present, the text of the IR is changed.
+If the active field is present, the active flag is changed.
+
+Input:
+
+	{
+		action: "updateIR",
+		ir_id: <ID>,				// ID of the IR to change
+		text: "[text of the IR]",	// new text
+		active: true | false		// new state of the active flag
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
+### deleteIR
+
+Input:
+
+	{
+		action: "deleteIR",
+		iq_id: <ID>,			// ID of the IR to delete
 	}
 
 Output:
