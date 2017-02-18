@@ -93,3 +93,8 @@ Output:
 		error: null,
 	}
 
+
+### admin_LinkResponse
+
+
+
