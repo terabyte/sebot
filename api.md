@@ -6,12 +6,14 @@ It describes the various inputs that request.py will accept and what the respons
 will be.
 
 
-### start
+### getFirstQuestion
+
+Get the first question and it's responses for a topic.
 
 Input:
 
 	{
-		action: "start",
+		action: "getFirstQuestion",
 		topic: "karma",		// The topic to be explored, such as karma, jesus, aliens
 	}
 
@@ -31,25 +33,9 @@ Output:
 	}
 
 
-### responseChosen
-
-Input:
-
-	{
-		action: "responseChosen",
-		question_id: "KARMA_1",
-		choice: 2,
-	}
-
-Output:
-
-	{
-		error: null,
-	}
-
-
-
 ### getQuestion
+
+Get a question and the existing responsed for it given it's ID.
 
 Input:
 
@@ -71,4 +57,28 @@ Output:
 			]
 		}
 	}
+
+
+### responseChosen
+
+Tell the server that the user chose a response to a question. 
+This can probably be ignored for now, but will likely prove useful in terms of
+deciding if some responses are better than others, or leaving a trail of 
+that can be analyzed later to see the most common paths through the map.
+
+Input:
+
+	{
+		action: "responseChosen",
+		question_id: "KARMA_1",
+		choice: 2,
+	}
+
+Output:
+
+	{
+		error: null,
+	}
+
+
 
