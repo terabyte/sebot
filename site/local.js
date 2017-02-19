@@ -140,24 +140,37 @@ cur_rsp = null		// the current choice or null
 
 api = function(act, data, cb) {
 
-	// $.ajax(....)
-	// XXX call stub functions until real API is in place
-	var k = "api_" + act
-	log(k+"()")
-	var f = window[ k ]
-	f(data, function(r) {
-		if(r.error) {
-			alert("API Error: "+r.error)
-		}
-		else {
+	if(true) {
+		var url = "/api/?action="+act+"&data="+encodeURIComponent(o2j(data))
+		//for(var k in data) {
+		//	url += "&"+k+"="+encodeURIComponent(""+data[k])
+		//}
+		log("ajax >>--> "+url);
+		$.get(url, function(r) {
+			log("ajax <--<< "+r);
 			cb(r)
-		}
-	})
+		});
+	}
+	else {
+		// $.ajax(....)
+		// XXX call stub functions until real API is in place
+		var k = "api_" + act
+		log(k+"()")
+		var f = window[ k ]
+		f(data, function(r) {
+			if(r.error) {
+				alert("API Error: "+r.error)
+			}
+			else {
+				cb(r)
+			}
+		})
+	}
 
 }
 
 
-admin = false;
+admin = localStorage.getItem("admin") === "true"
 
 update_admin = function() {
 	if(admin) {
@@ -169,6 +182,7 @@ update_admin = function() {
 }
 clk_toggle_admin = function() {
 	admin = !admin;
+	localStorage.setItem("admin", ""+admin)
 	update_admin();
 }
 
