@@ -175,9 +175,11 @@ admin = localStorage.getItem("admin") === "true"
 update_admin = function() {
 	if(admin) {
 		$(".admin").show();
+		$(".active_false").show();
 	}
 	else {
 		$(".admin").hide();
+		$(".active_false").hide();
 	}
 }
 clk_toggle_admin = function() {
