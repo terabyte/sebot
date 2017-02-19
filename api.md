@@ -162,6 +162,7 @@ Output:
 Modify an existing IR.
 If the text field is present, the text of the IR is changed.
 If the active field is present, the active flag is changed.
+If the next_sq_id field is present, the next_sq_id ID is changed or cleared
 
 Input:
 
@@ -170,6 +171,7 @@ Input:
 		ir_id: <ID>,				// ID of the IR to change
 		text: "[text of the IR]",	// new text
 		active: true | false		// new state of the active flag
+		next_sq_id: <ID>			// ID of SQ that this IR links to, or null to unlink
 	}
 
 Output:
