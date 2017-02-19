@@ -27,7 +27,7 @@ Get a list of the available topics.  [ Just return "karma" for the foreseeable f
 Input:
 
 	{
-		action: "getTopics",
+		"action": "getTopics"
 	}
 
 Output:
