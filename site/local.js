@@ -157,6 +157,21 @@ api = function(act, data, cb) {
 }
 
 
+admin = false;
+
+update_admin = function() {
+	if(admin) {
+		$(".admin").show();
+	}
+	else {
+		$(".admin").hide();
+	}
+}
+clk_toggle_admin = function() {
+	admin = !admin;
+	update_admin();
+}
+
 clk_wipe_data = function() {
 	localStorage.clear();
 	jmp("/");
@@ -324,6 +339,7 @@ load_qst = function(qid) {
 			});
 			//$(e).find("input[type=button]").click(clk, d)
 		})
+		update_admin();
 	});
 }
 

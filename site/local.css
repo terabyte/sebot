@@ -71,4 +71,7 @@ input[type='radio'] {
 	margin-right: 2em;
 }
 
+.admin {
+	display: none;
+}
 
