@@ -82,20 +82,22 @@ creating and deleting questions, adding responses, etc.
 ### createQst
 
 Create a new question.
+The question will be created with no responses.
+The responses have to be added with createRsp.
 The text field is required.
 
 Input:
 
 	{
 		action: "createQst",
-		text: "[ text of the question ]"		// text of the question
+		text: "Which god do you believe in?"		// text of the question
 	}
 
 Output:
 
 	{
 		error: null,
-		qid: <ID>			// the id of the newly created question
+		qid: <ID>			// the ID of the newly created question
 	}
 
 
@@ -108,7 +110,7 @@ Input:
 	{
 		action: "updateQst",
 		qid: <ID>,						// ID of the question to update
-		text: "[text of the question]",	// new text for the question
+		text: "Which of the many gods do you believe in?",	// new text for the question
 	}
 
 Output:
@@ -144,33 +146,33 @@ Input:
 
 	{
 		action: "createRsp",
-		qid: <ID>,						// ID of question to add this response to
-		text: "[ text of response ]",	// of new response
-		active: true | false			// new state of the active flag
+		qid: <ID>,				// ID of question to add this response to
+		text: "Jesus",			// Text of the new response
+		active: true | false	// New state of the active flag
 	}
 
 Output:
 
 	{
 		error: null,
-		rid: <ID>			// ID of the newly created response
+		rid: <ID>				// ID of the newly created response
 	}
 
 
 ### updateRsp
 
 Modify an existing response.
-If the text field is present, the text of the response is changed.
-If the active field is present, the active flag is changed.
-If the next_qid field is present, the next_qid ID is changed or cleared
+If the text field is present, the text of the response is updated.
+If the active field is present, the active flag is updated.
+If the next_qid field is present, the next_qid ID is updated.
 
 Input:
 
 	{
 		action: "updateRsp",
 		rid: <ID>,				// ID of the response to change
-		text: "[text of the response]",	// new text
-		active: true | false		// new state of the active flag
+		text: "Vishnu",			// new text
+		active: true | false	// new state of the active flag
 		next_qid: <ID>			// ID of question that this response links to, or null to unlink
 	}
 
