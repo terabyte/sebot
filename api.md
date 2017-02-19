@@ -33,12 +33,12 @@ Input:
 Output:
 
 	{
-		error: null,
-		data: [
+		"error": null,
+		"data": [
 			{
-				topic: "karma",	
-				description: "Let's talk about karma!",
-				first_sq_id: <ID>
+				"topic": "karma",	
+				"description": "Let's talk about karma!",
+				"first_sq_id": (integer)
 			}
 		}
 	}
@@ -51,18 +51,18 @@ Get a question and it's associated responses.
 Input:
 
 	{
-		action: "getSQ",
-		sq_id: <ID>,
+		"action": "getSQ",
+		"sq_id": 1
 	}
 
 Output:
 
 	{
-		error: null,
-		data: {
-			sq_id: <ID>,		// universally unique tag for this question
-			text: "Do you think karma is real?",	// the text of the socratic question to ask
-			responses: [	
+		"error": null,
+		"data": {
+			"sq_id": (integer),		// universally unique tag for this question
+			"text": "Do you think karma is real?",	// the text of the socratic question to ask
+			"responses": [	
 				// ordered list of responses.
 				// each has the text to display and an ID for the next question to load if chosen.
 				{ ir_id: <ID>, active: true, text: "Yes.", next_sq_id: <ID> },
