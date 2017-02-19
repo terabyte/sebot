@@ -156,6 +156,13 @@ api = function(act, data, cb) {
 
 }
 
+
+clk_wipe_data = function() {
+	localStorage.clear();
+	jmp("/");
+}
+
+
 clk_new_topic = function() {
 	log("new topic");
 }
@@ -195,7 +202,7 @@ clk_add_response = function() {
 	if(!text) {
 		return;
 	}
-	api("createIR", { sq_id:cur_qst.sq_id, active: false, text: text }, function(r) {
+	api("createIR", { sq_id:cur_qst.sq_id, active: true, text: text }, function(r) {
 		reload()
 	})
 }
@@ -249,7 +256,7 @@ clk_link = function() {
 	api("createSQ", { text: text }, function(r) {
 		var nquid = r.sq_id;
 		api("updateIR", { ir_id: cur_rsp.ir_id, next_sq_id: nquid }, function(r) {
-			reload()
+			jmp("/?qid="+nquid)
 		})
 	})
 	

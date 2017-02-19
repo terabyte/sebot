@@ -45,6 +45,13 @@ body {
 	width: 50%;
 }
 
+.rsp .lnk_id {
+	font-size: 90%;
+	color: #ace;
+	display: inline-block;
+	margin-left: 4em;
+}
+
 input[type=button] {
 	font-size: 100%;
 }
