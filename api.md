@@ -141,14 +141,16 @@ Output:
 Create a new response.
 The text field is required.
 If active field is optional; if absent, active will default to false.
+qid is optional ... if provided, the newly created response will also
+be appended to the responses for that question
 
 Input:
 
 	{
 		action: "createRsp",
-		qid: <ID>,				// ID of question to add this response to
 		text: "Jesus",			// Text of the new response
 		active: true | false	// New state of the active flag
+		qid: <ID>,				// optional ID of question to add this response to
 	}
 
 Output:
