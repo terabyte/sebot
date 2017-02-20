@@ -62,8 +62,9 @@ clk_continue = function() {
 			}
 			else {
 				// end the conversation
-				alert("End of conversation")
-				jmp("/")
+				//alert("End of conversation")
+				$(".page").hide();
+				$(".page.finish").show();
 			}
 		}
 	}
@@ -153,6 +154,9 @@ clk_edit_question = function() {
 	}
 }
 
+clk_yes = function() {
+	jmp("/?qid=q1");
+}
 
 clk = function(evt) {
 	var k = "clk_" + evt.target.value.toId()
@@ -160,6 +164,33 @@ clk = function(evt) {
 	var f = window[ k ]
 	f.apply(this, arguments)
 }
+
+load_qst = function(qid) {
+	log("load qst "+qid)
+	cur_qst = null;
+	cur_rsp = null;
+	api("getQst", {qid: qid}, function(r) {
+		var qst = r.data
+		cur_qst = qst
+
+		replicate("tpl_qst", [qst]);
+
+		var rsps = qst.responses
+		var a = []
+		for(var k in rsps) {
+			a.push(rsps[k])
+		}
+		replicate("tpl_rsp", a, function(e, d, i) {
+			$(e).find("input[type=radio]").change(function() {
+				$("#other").hide();
+				cur_rsp = d;
+			});
+		})
+		update_admin();
+		$(".page.talk").show();
+	});
+}
+
 
 $(document).ready(function() {
 
@@ -180,43 +211,18 @@ $(document).ready(function() {
 	replicate("tpl_rsp", []);
 
 	var qd = getQueryData()
-	
+
 	var qid = qd.qid
-	if(!qid) {
-		jmp("/?qid=q1");
-	}
-	else {
+	if(qid) {
 		load_qst(qid)
 	}
+	else {
+		$(".page.welcome").show();
+		update_admin();
+	}
 
+	
 });
 
-
-load_qst = function(qid) {
-	log("load qst "+qid)
-	cur_qst = null;
-	cur_rsp = null;
-	api("getQst", {qid: qid}, function(r) {
-		var qst = r.data
-		cur_qst = qst
-
-		replicate("tpl_qst", [qst]);
-
-		var rsps = qst.responses
-		var a = []
-		for(var k in rsps) {
-			a.push(rsps[k])
-		}
-		replicate("tpl_rsp", a, function(e, d, i) {
-			//e.rsp = d
-			$(e).find("input[type=radio]").change(function() {
-				$("#other").hide();
-				cur_rsp = d;
-			});
-			//$(e).find("input[type=button]").click(clk, d)
-		})
-		update_admin();
-	});
-}
 
 
