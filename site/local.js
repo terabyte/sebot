@@ -7,10 +7,10 @@ cur_rsp = null		// the current choice or null
 
 api = function(act, data, cb) {
 
+	log("api >>--> "+act+" "+o2j(data));
 	var url = "/api/?action="+act+"&data="+encodeURIComponent(o2j(data))
-	log("ajax >>--> "+url);
 	$.get(url, function(r) {
-		log("ajax <--<< "+r);
+		log("ajax <--<< "+o2j(r));
 		cb(r)
 	});
 }
