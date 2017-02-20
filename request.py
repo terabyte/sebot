@@ -27,20 +27,28 @@ def getSQ(input, output):
 
 
 def createSQ(input, output):
-    
-    pass
+    global conn
+    conn.execute("insert into sq(text) values(?)", (input['text'],))
+    res = conn.execute("select last_insert_rowid()").fetchone()
+    output['sq_id'] = res[0]
 
 
 def updateSQ(input, output):
-    pass
+    global conn
+    conn.execute("update sq set text=(?) where sq_id=(?)", (input['text'], input['sq_id'],))
 
 
 def deleteSQ(input, output):
-    pass
+    global conn
+    conn.execute("delete from sq where sq_id=(?)", (input['sq_id'],))
 
 
 def createIR(input, output):
-    pass
+    conn.execute("insert into ir(text) values(?)", (input['text'],))
+    irid = conn.execute("select last_insert_rowid()").fetchone()
+    output['ir_id'] = irid[0]
+    conn.execute("insert into sq_choices_ir(sq_id,ir_id,active) values(?,?,?)",
+                 (input['sq_id'], irid[0], 1 if input['sq_id'] is True else 0))
 
 
 def updateIR(input, output):
@@ -57,5 +65,7 @@ output = {}
 output['error'] = None
 globals()[input['action']](input, output)
 print(json.dumps(output))
+conn.commit()
+conn.close()
 sys.stdout.flush()
 sys.exit(0)
