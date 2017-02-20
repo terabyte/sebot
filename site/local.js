@@ -3,7 +3,9 @@
 log = function(s) { console.log(s); }
 
 cur_qst = null		// the currently displayed question
-//cur_rsp = null		// the current choice or null
+
+confidence = 0;		// 0 = initial confidence not yet provided
+
 
 api = function(act, data, cb) {
 
@@ -34,56 +36,19 @@ clk_toggle_admin_controls = function() {
 	update_admin();
 }
 
-clk_wipe_data = function() {
-	localStorage.clear();
-	jmp("/");
-}
-
 
 clk_new_topic = function() {
 	log("new topic");
 }
 
 clk_submit = function() {
-	//if(cur_rsp) {
-		//if(cur_rsp === "other") {
-			// new response
-			var text = $("#other").val().trim()
-			if(text) {
-				api("createRsp", {qid: cur_qst.qid, text:text}, function(r) {
-					reload()
-				})
-			}
-		//}
-		/*else {
-			var qid = cur_rsp.next_qid
-			if(qid) {
-				jmp("/?qid="+qid);
-			}
-			else {
-				// end the conversation
-				//alert("End of conversation")
-				$(".page").hide();
-				$(".page.finish").show();
-			}
-		}*/
-	//}
+	var text = $("#other").val().trim()
+	if(text) {
+		api("createRsp", {qid: cur_qst.qid, text:text}, function(r) {
+			reload()
+		})
+	}
 }
-
-
-
-/*clk_add_response = function() {
-	if(!cur_qst) {
-		return;
-	}
-	var text = prompt("Enter the text of the new response.", "");
-	if(!text) {
-		return;
-	}
-	api("createRsp", { qid:cur_qst.qid, active: true, text: text }, function(r) {
-		reload()
-	})
-}*/
 
 clk_delete_response = function(evt) {
 	var rsp = evt.target.parentElement.rsp;
@@ -145,17 +110,16 @@ clk_link = function(evt) {
 
 clk_edit_question = function() {
 	var qst = cur_qst
-	//if(qst) {
-		var txt = prompt("Edit the text of this question", qst.text);
-		if(txt) {
-			api("updateQst", { qid: qst.qid, text: txt }, function(r) {
-				reload()
-			})
-		}
-	//}
+	var txt = prompt("Edit the text of this question", qst.text);
+	if(txt) {
+		api("updateQst", { qid: qst.qid, text: txt }, function(r) {
+			reload()
+		})
+	}
 }
 
 clk_yes = function() {
+	confidence = 0;		// reset confidence level
 	jmp("/?qid=q1");
 }
 
@@ -168,10 +132,45 @@ clk = function(evt) {
 	return false;
 }
 
+
+response_chosen = function(el, qst, rsp) {
+
+	$(el).find("x").each(function() {
+		if(this.getAttribute("start_conf") !== null) {
+			// this is a starting-confidence response.
+			var s = "Initial confidence: " + toInt(rsp.text);
+			localStorage.setItem("conf", s);
+			$(".conf").html(s);
+		}
+		else
+		if(this.getAttribute("end_conf") !== null) {
+			// this is a subsequent or ending confidence response.
+			var oldc = localStorage.getItem("conf");
+			if(oldc !== null) {
+				var s = "Confidence change: "+oldc+"% &rarr; "+toInt(rsp.text)+"%"
+				localStorage.setItem("conf", s);
+				$(".conf").html(s)
+			}
+		}
+
+	});
+
+	var qid = rsp.next_qid
+	if(qid) {
+		jmp("/?qid="+qid);
+	}
+	else {
+		// end the conversation
+		//clear_conf()
+		$(".page").hide()
+		$(".page.finish").show()
+	}
+
+}
+
 load_qst = function(qid) {
 	log("load qst "+qid)
 	cur_qst = null;
-	//cur_rsp = null;
 	api("getQst", {qid: qid}, function(r) {
 		var qst = r.data
 		cur_qst = qst
@@ -186,26 +185,12 @@ load_qst = function(qid) {
 			a.push(rsps[k])
 		}
 		replicate("tpl_rsp", a, function(e, d, i) {
-			//$(e).find("input[type=button]").each(function(el) { el.rsp = d });
 			e.rsp = d;
-			/*
-			$(e).find("input[type=radio]").change(function() {
-				$("#other").hide();
-				cur_rsp = d;
-			});
-			*/
-			$(e).click(function() {
-				var qid = d.next_qid
-				if(qid) {
-					jmp("/?qid="+qid);
-				}
-				else {
-					// end the conversation
-					//alert("End of conversation")
-					$(".page").hide();
-					$(".page.finish").show();
-				}
+
+			$(e).click(function(evt) {
+				response_chosen(e, qst, d);
 			})
+
 			$(e).find("input[type=button]").click(clk)
 		})
 		update_admin();
@@ -213,21 +198,17 @@ load_qst = function(qid) {
 	});
 }
 
+clear_conf = function() {
+	log("clear_conf");
+	localStorage.removeItem("conf")
+	$(".conf").html("");
+}
+
 
 $(document).ready(function() {
-
 	log("doc ready");
 
-	var json = localStorage.getItem("db");
-	if(json) {
-		db = j2o(json);
-	}
-
 	$("input[type=button]").click(clk)
-	//$("input[data=other]").change(function(evt) {
-	//	$("#other").show();
-		//cur_rsp = "other"
-	//});
 
 	replicate("tpl_qst", []);
 	replicate("tpl_rsp", []);
@@ -236,17 +217,15 @@ $(document).ready(function() {
 
 	var qid = qd.qid
 	if(qid) {
+		$(".conf").html(localStorage.getItem("conf"));
 		load_qst(qid)
 	}
 	else {
 		$(".page.welcome").show();
+		clear_conf();
 		update_admin();
 	}
 
-	//$(".other_choice").click(function() {
-		//$("#other").hide();
-	//});
-	
 });
 
 

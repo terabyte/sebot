@@ -36,6 +36,12 @@ a {
 	text-align: right;
 }
 
+.conf {
+	font-size: 70%;
+	color: #ace;
+	text-align: right;
+}
+
 .rsp.active_false {
 	color: #ccc;
 }
