@@ -7,56 +7,62 @@ import os
 def getTopics(input, output):
     global conn
     output['data'] = []
-    for row in conn.execute("select topic, description, first_sq_id from topics"):
-        obj = {'topic': row[0], 'description': row[1], 'first_sq_id': row[2]}
+    for row in conn.execute("select topic, description, first_qid from topics"):
+        obj = {'topic': row[0], 'description': row[1], 'first_qid': row[2]}
         output['data'] += [json.loads(json.dumps(obj))]
 
 
-def getSQ(input, output):
+def getQst(input, output):
     global conn
-    sq = conn.execute("select text from sq where sq_id=(?)", (input['sq_id'],)).fetchone()
+    sq = conn.execute("select text from qst where qid=(?)", (input['qid'],)).fetchone()
     output['text'] = sq[0]
     output['responses'] = []
-    for row in conn.execute("select ir.ir_id, active, text, next_sq_id "
-                            "from ir, sq_choices_ir, choices_next_sq "
-                            "where sq_choices_ir.sq_id=(?) and ir.ir_id=sq_choices_ir.ir_id "
-                            "and sq_choices_ir.choice_id = choices_next_sq.choice_id order by count desc",
-                            (input['sq_id'],)):
-        obj = {'ir_id': row[0], 'active': row[1], 'text': row[2], 'next_sq_id': row[3]}
+    for row in conn.execute("select rsp.rid, active, text, next_qid "
+                            "from rsp, qst_choices_rsp, choices_next_qst "
+                            "where qst_choices_rsp.qid=(?) and rsp.rid=qst_choices_rsp.rid "
+                            "and qst_choices_rsp.choice_id = choices_next_qst.choice_id order by count desc",
+                            (input['qid'],)):
+        obj = {'rid': row[0], 'active': row[1], 'text': row[2], 'next_qid': row[3]}
         output['responses'] += [json.loads(json.dumps(obj))]
 
 
-def createSQ(input, output):
+def createQst(input, output):
     global conn
-    conn.execute("insert into sq(text) values(?)", (input['text'],))
+    conn.execute("insert into qst(text) values(?)", (input['text'],))
     res = conn.execute("select last_insert_rowid()").fetchone()
-    output['sq_id'] = res[0]
+    output['qid'] = res[0]
 
 
-def updateSQ(input, output):
+def updateQst(input, output):
     global conn
-    conn.execute("update sq set text=(?) where sq_id=(?)", (input['text'], input['sq_id'],))
+    conn.execute("update qst set text=(?) where qid=(?)", (input['text'], input['qid'],))
 
 
-def deleteSQ(input, output):
+def deleteQst(input, output):
     global conn
-    conn.execute("delete from sq where sq_id=(?)", (input['sq_id'],))
+    conn.execute("delete from qst where qid=(?)", (input['qid'],))
 
 
-def createIR(input, output):
-    conn.execute("insert into ir(text) values(?)", (input['text'],))
-    irid = conn.execute("select last_insert_rowid()").fetchone()
-    output['ir_id'] = irid[0]
-    conn.execute("insert into sq_choices_ir(sq_id,ir_id,active) values(?,?,?)",
-                 (input['sq_id'], irid[0], 1 if input['sq_id'] is True else 0))
+def createRsp(input, output):
+    global conn
+    conn.execute("insert into rsp(text) values(?)", (input['text'],))
+    irid = conn.execute("select last_insert_rowid()").fetchone()[0]
+    output['rid'] = irid
+    chid = conn.execute("insert into qst_choices_rsp(qid,rid,active) values(?,?,?)",
+                        (input['qid'], irid, 1 if input['active'] is True else 0)).fetchone()[0]
 
 
-def updateIR(input, output):
-    pass
+def updateRsp(input, output):
+    conn.execute("update rsp set text=(?) where rid=(?)", (input['text'], input['rid']))
+    conn.execute("update qst_choices_rsp set active=(?) where rid=(?)",
+                 (1 if input['active'] is True else 0, input['rid']))
+    conn.execute("update choices_next_qst set next_qid=(?) where choice_id in "
+                 "(select choice_id from qst_choices_rsp where rid=(?))",
+                 (input['next_qid'], input['rid']))
 
 
-def deleteIR(input, output):
-    pass
+def deleteRsp(input, output):
+    conn.execute("delete from rsp where rid=(?)", (input['rid'],))
 
 
 input = json.load(sys.stdin)
