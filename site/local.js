@@ -107,9 +107,11 @@ clk_edit_response = function() {
 	var rsp = cur_rsp
 	if(rsp && rsp !== "other") {
 		var txt = prompt("Edit the text of this response", rsp.text);
-		api("updateRsp", { rid: rsp.rid, text: txt }, function(r) {
-			reload()
-		})
+		if(txt) {
+			api("updateRsp", { rid: rsp.rid, text: txt }, function(r) {
+				reload()
+			})
+		}
 	}
 }
 
@@ -137,6 +139,18 @@ clk_link = function() {
 		})
 	})
 	
+}
+
+clk_edit_question = function() {
+	var qst = cur_qst
+	if(qst) {
+		var txt = prompt("Edit the text of this question", qst.text);
+		if(txt) {
+			api("updateQst", { qid: qst.qid, text: txt }, function(r) {
+				reload()
+			})
+		}
+	}
 }
 
 

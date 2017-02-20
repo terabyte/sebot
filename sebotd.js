@@ -171,6 +171,22 @@ api_createQst = function(data, cb) {
 	cb({qid: qid})
 }
 
+api_updateQst = function(data, cb) {
+	var qid = data.qid
+	var qst = fetch_qst(qid);
+	if(!qst) {
+		cb( { error:"not found: "+qid } )
+	}
+	else {
+		if(data.text !== undefined) {
+			qst.text = data.text
+		}
+		db.save()
+		I("found and updated qst: "+qst)
+		cb({})
+	}
+}
+
 /////////
 
 api = function(act, data, cb) {
