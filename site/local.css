@@ -56,7 +56,7 @@ a {
 }
 .rsp .txt {
 	display: inline-block;
-	width: 50%;
+	zwidth: 50%;
 }
 
 .rsp .lnk_id {
