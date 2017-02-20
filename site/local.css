@@ -15,14 +15,20 @@ body {
 .other {
 	display: none;
 	width: 50em;
-	height: 4em;
-	margin-left: 2em;
+	height: 5em;
+	margin-left: 8em;
 }
 
 .qst {
 	font-size: 120%;
 	font-weight: bold;
 	margin: 1em 0;
+}
+
+.qst .sq_id {
+	font-size: 90%;
+	color: #ace;
+	text-align: right;
 }
 
 .rsp.active_false {
@@ -39,6 +45,13 @@ body {
 	width: 50%;
 }
 
+.rsp .lnk_id {
+	font-size: 90%;
+	color: #ace;
+	display: inline-block;
+	margin-left: 4em;
+}
+
 input[type=button] {
 	font-size: 100%;
 }
@@ -53,5 +66,12 @@ div.admin_ctrls {
 }
 
 
+input[type='radio'] {
+	transform: scale(2);
+	margin-right: 2em;
+}
 
+.admin {
+	display: none;
+}
 
