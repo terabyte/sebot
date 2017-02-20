@@ -13,9 +13,9 @@
 
 	<hr>
 
-	<div class=note>
+	<!--div class=note>
 		Select the best answer or enter your own if none of them seems appropriate.
-	</div>
+	</div-->
 
 	<div id=tpl_qst class=qst>
 		<div class="admin qid">Question ID "__qid__"</div>
@@ -29,12 +29,18 @@
 	</div>
 	<div id=tpl_rsp_other class=rsp>
 		<input type=radio name=rsp data="other">
-		<div class=txt>Other</div>
+		<div class=txt>(None of the above)</div>
+		<div class=note>
+			If none of the responses above reflect how you would
+			really answer this question, you can enter your own
+			response here.  The administrators will review it
+			and possibly added to the list.
+		</div>
+		<textarea id=other class=other placeholder="Enter your response"></textarea>
 	</div>
-	<textarea id=other class=other placeholder="Enter your response"></textarea>
 
 	<p>	
-	<input type=button value="Continue">
+	<center><input type=button value="Continue"></center>
 	<p>	
 	<hr>
 	<input type=button value="Toggle Admin">
