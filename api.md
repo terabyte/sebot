@@ -5,10 +5,10 @@ This defines the API.
 It describes the various inputs that request.py will accept and what the responses
 will be.
 
-* SQ = Socratic question
-* IR = Interlocutor response
-* sq_id = Socratic question ID
-* ir_id = Interlocuter response ID
+* qst = question
+* rsp = response
+* qid = question ID
+* rid = response ID
 * ID = Some sort of unique identifier
 
 
@@ -17,7 +17,7 @@ will be.
 
 Regular API calls.
 These are the functions that are used when the system is actually engaging in a
-socratic dialogue.
+dialogue.
 
 
 ### getTopics
@@ -36,23 +36,23 @@ Output:
 		"error": null,
 		"data": [
 			{
-				"topic": "karma",	
-				"description": "Let's talk about karma!",
-				"first_sq_id": (integer)
-			}
+				topic: "karma",	
+				description: "Let's talk about karma!",
+				first_qid: <ID>
+			}]
 		}
 	}
 
 
-### getSQ
+### getQst
 
-Get a question and it's associated responses.
+Get a question by ID and it's associated responses.
 
 Input:
 
 	{
 		"action": "getSQ",
-		"sq_id": 1
+		"qid": <ID>
 	}
 
 Output:
@@ -60,54 +60,57 @@ Output:
 	{
 		"error": null,
 		"data": {
-			"sq_id": (integer),		// universally unique tag for this question
+			"qid": <ID>,		                    // universally unique tag for this question
 			"text": "Do you think karma is real?",	// the text of the socratic question to ask
 			"responses": [	
 				// ordered list of responses.
 				// each has the text to display and an ID for the next question to load if chosen.
-				{ ir_id: <ID>, active: true, text: "Yes.", next_sq_id: <ID> },
-				{ ir_id: <ID>, active: true, text: "No.", next_sq_id: <ID> },
-				{ ir_id: <ID>, active: true, text: "I'm not sure.", next_sq_id: <ID> },
+				{ rid: <ID>, active: true, text: "Yes.", next_qid: <ID> },
+				{ rid: <ID>, active: true, text: "No.", next_qid: <ID> },
+				{ rid: <ID>, active: true, text: "I'm not sure.", next_qid: <ID> },
 			]
 		}
 	}
 
+
 ## Admin API calls
 
-These calls are for doing things to the data, like linking responses to questions, 
+These admin/editor calls for doing things to the data, like linking responses to questions, 
 creating and deleting questions, adding responses, etc.
 
 
-### createSQ
+### createQst
 
-Create a new SQ.
+Create a new question.
+The question will be created with no responses.
+The responses have to be added with createRsp.
 The text field is required.
 
 Input:
 
 	{
-		action: "createSQ",
-		text: "[ text of the SQ ]"		// text of the SQ
+		"action": "createQst",
+		"text": "Which god do you believe in?"		// text of the question
 	}
 
 Output:
 
 	{
 		error: null,
-		sq_id: <ID>			// the id of the newly created question
+		qid: <ID>			// the ID of the newly created question
 	}
 
 
-### updateSQ
+### updateQst
 
-Modify an existing SQ.
+Modify an existing question.
 
 Input:
 
 	{
-		action: "updateSQ",
-		sq_id: <ID>,				// ID of the SQ to update
-		text: "[text of the SQ]",	// new text for the SQ
+		"action": "updateQst",
+		"qid": <ID>,						                    // ID of the question to update
+		"text": "Which of the many gods do you believe in?",	// new text for the question
 	}
 
 Output:
@@ -117,13 +120,13 @@ Output:
 	}
 
 
-### deleteSQ
+### deleteQst
 
 Input:
 
 	{
-		action: "deleteSQ",
-		sq_id: <ID>,			// ID of the SQ to delete
+		"action": "deleteQst",
+		"qid": <ID>,			// ID of the question to delete
 	}
 
 Output:
@@ -133,42 +136,44 @@ Output:
 	}
 
 
-### createIR
+### createRsp
 
-Create a new IR.
+Create a new response.
 The text field is required.
 If active field is optional; if absent, active will default to false.
 
 Input:
 
 	{
-		action: "createIR",
-		sq_id: <ID>,				// ID of SQ to add this IR to
-		text: "[ text of IR ]",		// of new IR
-		active: true | false		// new state of the active flag
+		"action": "createRsp",
+		"qid": <ID>,				// ID of question to add this response to
+		"text": "Jesus",			// Text of the new response
+		"active": true | false	// New state of the active flag
 	}
 
 Output:
 
 	{
 		error: null,
-		ir_id: <ID>			// ID of the newly created IR
+		rid: <ID>				// ID of the newly created response
 	}
 
 
-### updateIR
+### updateRsp
 
-Modify an existing IR.
-If the text field is present, the text of the IR is changed.
-If the active field is present, the active flag is changed.
+Modify an existing response.
+If the text field is present, the text of the response is updated.
+If the active field is present, the active flag is updated.
+If the next_qid field is present, the next_qid ID is updated.
 
 Input:
 
 	{
-		action: "updateIR",
-		ir_id: <ID>,				// ID of the IR to change
-		text: "[text of the IR]",	// new text
-		active: true | false		// new state of the active flag
+		"action": "updateRsp",
+		"rid": <ID>,				// ID of the response to change
+		"text": "Vishnu",			// new text
+		"active": true | false	// new state of the active flag
+		"next_qid": <ID>			// ID of question that this response links to, or null to unlink
 	}
 
 Output:
@@ -178,13 +183,13 @@ Output:
 	}
 
 
-### deleteIR
+### deleteRsp
 
 Input:
 
 	{
-		action: "deleteIR",
-		iq_id: <ID>,			// ID of the IR to delete
+		"action": "deleteRsp",
+		"rid": <ID>,			// ID of the response to delete
 	}
 
 Output:

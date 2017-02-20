@@ -15,10 +15,12 @@
   },
   "homepage": "https://github.com/JoeHitchens/sebot#readme",
   "dependencies": {
+    "ds": "^1.4.2",
     "g": "^2.0.1",
     "jquery": "^3.1.1",
     "log5": "^2.0.0",
     "send": "^0.14.2",
-    "sleepless": "^2.4.7"
+    "sleepless": "^2.4.7",
+    "sleepless-replicate": "^2.2.1"
   }
 }

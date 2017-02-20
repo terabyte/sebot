@@ -2,11 +2,86 @@
 <head>
 	<link rel="icon" href="">
 	<link href="./local.css" rel="stylesheet" type="text/css">
+	<script src="./jquery.js"></script>
+	<script src="./sleepless.js"></script>
+	<script src="./replicate.js"></script>
 	<script src="./local.js"></script>
 </head>
 <body>
 
-	<h1>SEBOT</h1>
+	<a href="/"><h1>SEBOT</h1></a>
+	<hr>
+
+	<!-- ======================= -->
+
+	<div class="page welcome">
+		<div class=qst>
+			Hi.
+			Do you have a few minutes for a quick interview?
+		</div>
+		<center>
+			<input type=button value="Yes">
+		</center>
+	</div>
+
+	<!-- ======================= -->
+
+	<div class="page talk">
+		<div id=tpl_qst class=qst>
+			<div class="admin qid">Question ID "__qid__"</div>
+			__text__
+		</div>
+
+		<div id=tpl_rsp class="rsp active___active__">
+			<input type=radio name=rsp data="__rid__">
+			<div class=txt>__text__</div>
+			<div class="admin lnk_id">[ __next_qid__ ]</div>
+		</div>
+		<div id=tpl_rsp_other class=rsp>
+			<input type=radio name=rsp data="other">
+			<div class=txt>(None of the above)</div>
+			<div class=note>
+				If none of the responses above reflect how you would
+				really answer this question, you can enter your own
+				response here.  The administrators will review it
+				and possibly add it to the list.
+			</div>
+			<textarea id=other class=other placeholder="Enter your response"></textarea>
+		</div>
+
+		<p>	
+		<center><input type=button value="Continue"></center>
+		<p>	
+
+		<hr>
+		<hr>
+		<input type=button value="Toggle Admin">
+		<div class="admin">
+			<hr>
+			<h2>Admin</h2>
+			<input type=button value="Edit Question">
+			<hr>
+			<input type=button value="Add Response">
+			<input type=button value="Delete Response">
+			<input type=button value="Edit Response">
+			<input type=button value="Toggle Active">
+			<input type=button value="Link">
+			<!--hr>
+			<input type=button value="Wipe Data"-->
+		</div>
+	</div>
+
+	<!-- ======================= -->
+
+	<div class="page finish">
+		<p>
+		The interview is now finished.
+		Thank you very much.
+		<p>
+	</div>
+
+	<!-- ======================= -->
+
 
 
 </body>

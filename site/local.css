@@ -1,6 +1,85 @@
 
 body {
+	font-size: 15pt;
 	font-family: Helvetica;
 	padding: 3em;
+}
+
+a {
+	text-decoration: none;
+	color: #6ae;
+}
+
+.note {
+	font-size: 90%;
+	color: #666;
+	font-style: italic;
+	margin: 1em 0;
+}
+
+.other {
+	display: none;
+	width: 99%;
+	height: 6em;
+}
+
+.qst {
+	font-size: 120%;
+	font-weight: bold;
+	margin: 1em 0;
+}
+
+.qst .qid {
+	font-size: 90%;
+	color: #ace;
+	text-align: right;
+}
+
+.rsp.active_false {
+	color: #ccc;
+}
+
+.rsp {
+	margin-left: 2em;
+	border: solid 1px #eee;
+	padding: 0.5em 1em;
+}
+.rsp .txt {
+	display: inline-block;
+	width: 50%;
+}
+
+.rsp .lnk_id {
+	font-size: 90%;
+	color: #ace;
+	display: inline-block;
+	margin-left: 4em;
+}
+
+input[type=button] {
+	font-size: 100%;
+}
+
+input[type=button].small {
+	font-size: 60%;
+}
+
+div.admin_ctrls {
+	display: inline-block;
+	margin-left: 2em;
+}
+
+
+input[type='radio'] {
+	transform: scale(2);
+	margin-right: 2em;
+}
+
+.admin {
+	display: none;
+}
+
+.page {
+	display: none;
 }
 
