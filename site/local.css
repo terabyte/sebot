@@ -5,6 +5,11 @@ body {
 	padding: 3em;
 }
 
+a {
+	text-decoration: none;
+	color: #6ae;
+}
+
 .note {
 	font-size: 90%;
 	color: #666;
@@ -14,9 +19,8 @@ body {
 
 .other {
 	display: none;
-	width: 50em;
-	height: 5em;
-	margin-left: 8em;
+	width: 99%;
+	height: 6em;
 }
 
 .qst {
@@ -25,7 +29,7 @@ body {
 	margin: 1em 0;
 }
 
-.qst .sq_id {
+.qst .qid {
 	font-size: 90%;
 	color: #ace;
 	text-align: right;
@@ -72,6 +76,10 @@ input[type='radio'] {
 }
 
 .admin {
+	display: none;
+}
+
+.page {
 	display: none;
 }
 
