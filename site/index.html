@@ -30,16 +30,20 @@
 		<div id=tpl_qst class=qst>
 			<div class="admin qid">Question ID "__qid__"</div>
 			__text__
+			<input type=button value="Edit Question" class="admin btn handy" >
 		</div>
 
-		<div id=tpl_rsp class="rsp active___active__">
-			<input type=radio name=rsp data="__rid__">
+		<div id=tpl_rsp class="rsp active___active__" data="__rid__">
 			<div class=txt>__text__</div>
-			<div class="admin lnk_id">[ __next_qid__ ]</div>
+			<div class="admin lnk_id">__rid__ &rarr; __next_qid__</div>
+			<br>
+			<input type=button value="Delete Response" class="admin btn handy" >
+			<input type=button value="Edit Response" class="admin btn handy" >
+			<input type=button value="Toggle Active" class="admin btn handy" >
+			<input type=button value="Link" class="admin btn handy" >
 		</div>
-		<div id=tpl_rsp_other class=rsp>
-			<input type=radio name=rsp data="other">
-			<div class=txt>(None of the above)</div>
+		<div id=other_choice class="rsp">
+			<div class=txt>(Submit your own response)</div>
 			<div class=note>
 				If none of the responses above reflect how you would
 				really answer this question, you can enter your own
@@ -47,25 +51,16 @@
 				and possibly add it to the list.
 			</div>
 			<textarea id=other class=other placeholder="Enter your response"></textarea>
+			<center><input type=button value="Submit"></center>
 		</div>
 
-		<p>	
-		<center><input type=button value="Continue"></center>
-		<p>	
-
+		<br>
+		<br>
 		<hr>
-		<hr>
-		<input type=button value="Toggle Admin">
+		<input type=button value="Toggle Admin Controls">
 		<div class="admin">
 			<hr>
-			<h2>Admin</h2>
-			<input type=button value="Edit Question">
-			<hr>
-			<input type=button value="Add Response">
-			<input type=button value="Delete Response">
-			<input type=button value="Edit Response">
-			<input type=button value="Toggle Active">
-			<input type=button value="Link">
+			<!--input type=button value="Add Response" class="admin btn handy" -->
 			<!--hr>
 			<input type=button value="Wipe Data"-->
 		</div>
@@ -75,8 +70,8 @@
 
 	<div class="page finish">
 		<p>
+		Thank you very much for your time.
 		The interview is now finished.
-		Thank you very much.
 		<p>
 	</div>
 

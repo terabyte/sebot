@@ -27,7 +27,7 @@ if(!db.questions) {
 	db.questions = {
 		"q1": {
 			qid: "q1",
-			text: "Do you have 5 minutes for a quick interview?",
+			text: "Would you like to talk about karma?",
 			responses: [
 				{ rid: "r2", active: true, text: "Yeah, sure!", next_qid: null  },
 				{ rid: "r3", active: true, text: "No, sorry.", next_qid: null  },

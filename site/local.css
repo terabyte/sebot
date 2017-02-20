@@ -11,26 +11,27 @@ a {
 }
 
 .note {
-	font-size: 90%;
-	color: #666;
+	font-weight: normal;
+	font-size: 80%;
+	color: #888;
 	font-style: italic;
 	margin: 1em 0;
 }
 
 .other {
-	display: none;
+	zdisplay: none;
 	width: 99%;
 	height: 6em;
 }
 
 .qst {
-	font-size: 120%;
+	font-size: 140%;
 	font-weight: bold;
 	margin: 1em 0;
 }
 
 .qst .qid {
-	font-size: 90%;
+	font-size: 70%;
 	color: #ace;
 	text-align: right;
 }
@@ -40,9 +41,18 @@ a {
 }
 
 .rsp {
-	margin-left: 2em;
-	border: solid 1px #eee;
+	margin: 0 2em;
+	border: solid 0.2em #fff;
 	padding: 0.5em 1em;
+	font-weight: bold;
+	font-size: 120%;
+	border-radius: 0.3em;
+	background-color: #def;
+}
+.rsp:hover {
+	zbackground-color: #ace;
+	cursor: pointer;
+	border: solid 0.2em #8be;
 }
 .rsp .txt {
 	display: inline-block;
@@ -82,4 +92,21 @@ input[type='radio'] {
 .page {
 	display: none;
 }
+
+.admin.btn {
+	background-color: #fee;
+	padding: 0.2em 0.5em;
+	font-size: 14pt;
+	display: inline-block;
+	color: #840;
+	font-weight: normal;
+	cursor: pointer;
+	border: none;
+}
+
+.handy:hover {
+	opacity: 0.8;
+}
+
+
 
