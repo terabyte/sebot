@@ -26,11 +26,11 @@ if(!db.questions) {
 	db.seq = 10
 	db.questions = {
 		"q1": {
-			sq_id: "q1",
+			qid: "q1",
 			text: "Do you have 5 minutes for a quick interview?",
 			responses: [
-				{ ir_id: "r2", active: true, text: "Yeah, sure!", next_sq_id: null  },
-				{ ir_id: "r3", active: true, text: "No, sorry.", next_sq_id: null  },
+				{ rid: "r2", active: true, text: "Yeah, sure!", next_qid: null  },
+				{ rid: "r3", active: true, text: "No, sorry.", next_qid: null  },
 			]
 		}
 	}
@@ -48,11 +48,11 @@ if(!db) {
 		},
 		questions: {
 			"q1": {
-				sq_id: "q1",
+				qid: "q1",
 				text: "Do you have 5 minutes for a quick interview?",
 				responses: [
-					{ ir_id: "r2", active: true, text: "Yeah, sure!", next_sq_id: null  },
-					{ ir_id: "r3", active: true, text: "No, sorry.", next_sq_id: null  },
+					{ rid: "r2", active: true, text: "Yeah, sure!", next_qid: null  },
+					{ rid: "r3", active: true, text: "No, sorry.", next_qid: null  },
 				]
 			}
 		},
@@ -77,7 +77,7 @@ fetch_rsp = function(rid) {
 		var ro = qo[qid].responses
 		for(var i = 0; i < ro.length; i++) {
 			var rsp = ro[i];
-			if(rsp.ir_id == rid) {
+			if(rsp.rid == rid) {
 				return rsp
 			}
 		}
@@ -86,8 +86,8 @@ fetch_rsp = function(rid) {
 }
 
 // stub calls that simulate the backend api calls
-api_getSQ = function(data, cb) {
-	var qid = data.sq_id
+api_getQst = function(data, cb) {
+	var qid = data.qid
 	var qst = db.questions[qid]
 	if(qst) {
 		cb({ error: null, data: qst });
@@ -97,8 +97,8 @@ api_getSQ = function(data, cb) {
 	}
 }
 
-api_createIR = function(data, cb) {
-	var qid = data.sq_id
+api_createRsp = function(data, cb) {
+	var qid = data.qid
 	var qst = fetch_qst(qid);
 	if(!qst) {
 		cb( { error:"not found "+qid } )
@@ -106,28 +106,28 @@ api_createIR = function(data, cb) {
 	else {
 		var rid = "r"+next_seq()
 		var rsp = {
-			ir_id: rid,
+			rid: rid,
 			active: !!data.active,
-			next_sq_id: null,
+			next_qid: null,
 			text: data.text,
 		}
 		qst.responses.push(rsp)
 		db.save()
 		I("created new rsp "+rid+" for qst "+qid)
-		cb({ir_id:rid})
+		cb({rid:rid})
 	}
 }
 
-api_deleteIR = function(data, cb) {
+api_deleteRsp = function(data, cb) {
 	var qo = db.questions
 	for(var qid in qo) {
 		var ro = qo[qid].responses
 		for(var i = 0; i < ro.length; i++) {
 			var rsp = ro[i];
-			if(rsp.ir_id == data.ir_id) {
+			if(rsp.rid == data.rid) {
 				ro = ro.splice(i, 1);
 				db.save()
-				I("found and removed rsp "+rsp.ir_id+" at index "+i)
+				I("found and removed rsp "+rsp.rid+" at index "+i)
 				break;
 			}
 		}
@@ -135,8 +135,8 @@ api_deleteIR = function(data, cb) {
 	cb({})
 }
 
-api_updateIR = function(data, cb) {
-	var rid = data.ir_id
+api_updateRsp = function(data, cb) {
+	var rid = data.rid
 	var rsp = fetch_rsp(rid);
 	if(!rsp) {
 		cb( { error:"not found: "+rid } )
@@ -148,8 +148,8 @@ api_updateIR = function(data, cb) {
 		if(data.active !== undefined) {
 			rsp.active = data.active
 		}
-		if(data.next_sq_id !== undefined) {
-			rsp.next_sq_id = data.next_sq_id
+		if(data.next_qid !== undefined) {
+			rsp.next_qid = data.next_qid
 		}
 		db.save()
 		I("found and updated rsp: "+rid)
@@ -157,18 +157,18 @@ api_updateIR = function(data, cb) {
 	}
 }
 
-api_createSQ = function(data, cb) {
+api_createQst = function(data, cb) {
 	var text = data.text || "(New question)";
 	var qid = "q"+next_seq()
 	var qst = {
-		sq_id: qid,
+		qid: qid,
 		text: text,
 		responses: [],
 	}
 	db.questions[qid] = qst
 	db.save()
 	I("created new question "+qid)
-	cb({sq_id: qid})
+	cb({qid: qid})
 }
 
 /////////
