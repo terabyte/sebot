@@ -45,7 +45,6 @@
 			<input type=button value="Link" class="admin btn handy" >
 		</div>
 		<div id=other_choice class="rsp">
-			<div class=txt>(Submit your own response)</div>
 			<div class=note>
 				If none of the responses above reflect how you would
 				really answer this question, you can enter your own
@@ -61,10 +60,29 @@
 		<hr>
 		<input type=button value="Toggle Admin Controls">
 		<div class="admin">
-			<hr>
-			<!--input type=button value="Add Response" class="admin btn handy" -->
-			<!--hr>
-			<input type=button value="Wipe Data"-->
+			<h2>Admin Help</h2>
+			<p>
+			When the admin controls are on, you can make changes to the questions and
+			the responses.
+			<p>
+			Each response is either linked to another question, or it will be lead
+			to the end of the conversation.
+			You'll see something that looks like "r18 &rarr; q19" when the admin controls
+			are on.  That tells you that the response (the one with ID r18) will take
+			the user to the question q19 (the one with ID q19).
+			If the reponse says that it leads to "null", then it just ends the
+			conversation.
+			<p>
+			When you click on "Link", it lets you enter a new question or the ID of
+			an existing question (entered like #q19).
+			<p>
+			If you, or a user submits an alternative response, it is added to the question
+			but is "inactive" and appears in gray text.  Inactive responses are not
+			seen when the admin controls are off.
+			You can toggle the active/inactive status of a submitted response after
+			optional editing to make it a visible response.
+			<p>
+
 		</div>
 	</div>
 

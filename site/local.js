@@ -93,7 +93,7 @@ clk_link = function(evt) {
 				return;
 			}
 		}
-		var text = prompt("Enter the text of the next question (prefix question IDs with #).", "");
+		var text = prompt("Enter the text of the next question or a question ID prefixed with #", "");
 		if(!text || !text.trim()) {
 			return;
 		}
