@@ -26,44 +26,17 @@ if(!db.questions) {
 	db.seq = 10
 	db.questions = {
 		"q1": {
-			qid: "q1",
-			text: "Do you have 5 minutes for a quick interview?",
-			responses: [
-				{ rid: "r2", active: true, text: "Yeah, sure!", next_qid: null  },
-				{ rid: "r3", active: true, text: "No, sorry.", next_qid: null  },
-			]
+			text: "Would you like to talk about karma?",
+			responses: [ "r2", "r3", ]
 		}
 	}
-	db.responses = {}
-}
-/*
-read_file = function(path) { try { return fs.readFileSync("db.json") } catch(e) { return null } }
-db_save = function() { fs.writeFileSync("db.json", o2j(db)) }
-db = read_file("db.json")
-if(!db) {
-	db = {
-		seq: 10,
-		topics: {
-			"karma": { first_sq: "q1" }
-		},
-		questions: {
-			"q1": {
-				qid: "q1",
-				text: "Do you have 5 minutes for a quick interview?",
-				responses: [
-					{ rid: "r2", active: true, text: "Yeah, sure!", next_qid: null  },
-					{ rid: "r3", active: true, text: "No, sorry.", next_qid: null  },
-				]
-			}
-		},
-		responses: {},
+	db.responses = {
+		"r2": { active: true, text: "Yeah, sure!", next_qid: null  },
+		"r3": { active: true, text: "No, sorry.", next_qid: null  },
 	}
-	db_save();
 }
-*/
 next_seq = function() { return db.seq += 1; }
 I("db="+o2j(db))
-
 
 ///////////////////////////
 
@@ -72,6 +45,8 @@ fetch_qst = function(qid) {
 }
 
 fetch_rsp = function(rid) {
+	return db.responses[rid] || null
+	/*
 	var qo = db.questions
 	for(var qid in qo) {
 		var ro = qo[qid].responses
@@ -82,14 +57,23 @@ fetch_rsp = function(rid) {
 			}
 		}
 	}
+	*/
 	return null
 }
 
 // stub calls that simulate the backend api calls
+
 api_getQst = function(data, cb) {
 	var qid = data.qid
-	var qst = db.questions[qid]
+	var qst = j2o(o2j(db.questions[qid]))	// clone it
 	if(qst) {
+		qst.qid = qid;
+		for(var i = 0; i < qst.responses.length; i++) {
+			var rid = qst.responses[i]
+			var rsp = fetch_rsp(rid)
+			rsp.rid = rid
+			qst.responses[i] = rsp
+		}
 		cb({ error: null, data: qst });
 	}
 	else {
@@ -98,40 +82,52 @@ api_getQst = function(data, cb) {
 }
 
 api_createRsp = function(data, cb) {
+
+	var rid = "r"+next_seq()
+	var rsp = {
+		active: !!data.active,
+		next_qid: null,
+		text: data.text,
+	}
+	db.responses[rid] = rsp
+	I("created new rsp "+rid)
+
+	// if optional qid provided, append the rsp to it
 	var qid = data.qid
-	var qst = fetch_qst(qid);
-	if(!qst) {
-		cb( { error:"not found "+qid } )
-	}
-	else {
-		var rid = "r"+next_seq()
-		var rsp = {
-			rid: rid,
-			active: !!data.active,
-			next_qid: null,
-			text: data.text,
+	if(qid) {
+		var qst = fetch_qst(qid);
+		if(qst) {
+			qst.responses.push(rid)
+			I("appended rsp "+rid+" to qst "+qid)
 		}
-		qst.responses.push(rsp)
-		db.save()
-		I("created new rsp "+rid+" for qst "+qid)
-		cb({rid:rid})
 	}
+
+	db.save();
+
+	cb({rid:rid})
 }
 
 api_deleteRsp = function(data, cb) {
+	var rid = data.rid
+	if(db.responses[rid]) {
+		delete db.responses[rid]
+		I("found and removed rsp "+rid)
+	}
+
+	// remove any references to the response from the questions
 	var qo = db.questions
 	for(var qid in qo) {
 		var ro = qo[qid].responses
 		for(var i = 0; i < ro.length; i++) {
-			var rsp = ro[i];
-			if(rsp.rid == data.rid) {
+			if(ro[i] == rid) {
 				ro = ro.splice(i, 1);
-				db.save()
-				I("found and removed rsp "+rsp.rid+" at index "+i)
-				break;
+				I("removed reference "+rid+" from qst "+qid)
 			}
 		}
 	}
+
+	db.save()
+
 	cb({})
 }
 

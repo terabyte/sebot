@@ -81,9 +81,8 @@ creating and deleting questions, adding responses, etc.
 
 ### createQst
 
-Create a new question.
-The question will be created with no responses.
-The responses have to be added with createRsp.
+Create a new question with no responses.
+Responses have to be added with createRsp.
 The text field is required.
 
 Input:
@@ -141,14 +140,16 @@ Output:
 Create a new response.
 The text field is required.
 If active field is optional; if absent, active will default to false.
+qid is optional ... if provided, the newly created response will also
+be appended to the responses for that question
 
 Input:
 
 	{
 		"action": "createRsp",
-		"qid": <ID>,				// ID of question to add this response to
-		"text": "Jesus",			// Text of the new response
-		"active": true | false	    // New state of the active flag
+		"qid": <ID>,				    // optional ID of question to add this response to
+		"text": "Jesus",			  // Text of the new response
+		"active": true | false	// New state of the active flag
 	}
 
 Output:
