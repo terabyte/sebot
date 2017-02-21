@@ -48,14 +48,17 @@ def createRsp(input, output):
     conn.execute("insert into rsp(text) values(?)", (input['text'],))
     irid = conn.execute("select last_insert_rowid()").fetchone()[0]
     output['rid'] = irid
-    chid = conn.execute("insert into qst_choices_rsp(qid,rid,active) values(?,?,?)",
-                        (input['qid'], irid, 1 if input['active'] is True else 0)).fetchone()[0]
+    conn.execute("insert into qst_choices_rsp(qid,rid,active) values(?,?,?)",
+                 (input['qid'], irid, 1 if input['active'] is True else 0))
+    chid = conn.execute("select last_insert_rowid()").fetchone()[0]
+    conn.execute("insert into choices_next_qst values(?,?)", (chid, -1))
 
 
 def updateRsp(input, output):
     conn.execute("update rsp set text=(?) where rid=(?)", (input['text'], input['rid']))
     conn.execute("update qst_choices_rsp set active=(?) where rid=(?)",
                  (1 if input['active'] is True else 0, input['rid']))
+
     conn.execute("update choices_next_qst set next_qid=(?) where choice_id in "
                  "(select choice_id from qst_choices_rsp where rid=(?))",
                  (input['next_qid'], input['rid']))

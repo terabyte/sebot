@@ -1,0 +1,8 @@
+{"action": "getTopics"}
+{"action": "getQst","qid": 1}
+{"action": "createQst","text": "Which god do you believe in?"}
+{"action": "updateQst","qid": 2, "text": "Which of the many gods do you believe in?"}
+{"action": "deleteQst","qid": 2}
+{"action": "createRsp","qid": 2,"text": "Jesus","active": true}
+{"action": "updateRsp","rid": 4,"text": "Vishnu","active": true,"next_qid": 1}
+{"action": "deleteRsp","rid": 4}

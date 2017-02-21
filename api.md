@@ -39,8 +39,8 @@ Output:
 				topic: "karma",	
 				description: "Let's talk about karma!",
 				first_qid: <ID>
-			}]
-		}
+			}
+		]
 	}
 
 
@@ -51,7 +51,7 @@ Get a question by ID and it's associated responses.
 Input:
 
 	{
-		"action": "getSQ",
+		"action": "getQst",
 		"qid": <ID>
 	}
 
@@ -110,7 +110,7 @@ Input:
 	{
 		"action": "updateQst",
 		"qid": <ID>,						                    // ID of the question to update
-		"text": "Which of the many gods do you believe in?",	// new text for the question
+		"text": "Which of the many gods do you believe in?" 	// new text for the question
 	}
 
 Output:
@@ -126,7 +126,7 @@ Input:
 
 	{
 		"action": "deleteQst",
-		"qid": <ID>,			// ID of the question to delete
+		"qid": <ID>			// ID of the question to delete
 	}
 
 Output:
@@ -148,14 +148,14 @@ Input:
 		"action": "createRsp",
 		"qid": <ID>,				// ID of question to add this response to
 		"text": "Jesus",			// Text of the new response
-		"active": true | false	// New state of the active flag
+		"active": true | false	    // New state of the active flag
 	}
 
 Output:
 
 	{
 		error: null,
-		rid: <ID>				// ID of the newly created response
+		rid: <ID>				    // ID of the newly created response
 	}
 
 
@@ -172,7 +172,7 @@ Input:
 		"action": "updateRsp",
 		"rid": <ID>,				// ID of the response to change
 		"text": "Vishnu",			// new text
-		"active": true | false	// new state of the active flag
+		"active": true | false,	    // new state of the active flag
 		"next_qid": <ID>			// ID of question that this response links to, or null to unlink
 	}
 
@@ -189,7 +189,7 @@ Input:
 
 	{
 		"action": "deleteRsp",
-		"rid": <ID>,			// ID of the response to delete
+		"rid": <ID> 			    // ID of the response to delete
 	}
 
 Output:
