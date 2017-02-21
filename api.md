@@ -33,14 +33,14 @@ Input:
 Output:
 
 	{
-		error: null,
-		data: [
+		"error": null,
+		"data": [
 			{
 				topic: "karma",	
 				description: "Let's talk about karma!",
 				first_qid: <ID>
 			}
-		}
+		]
 	}
 
 
@@ -51,18 +51,18 @@ Get a question by ID and it's associated responses.
 Input:
 
 	{
-		action: "getQst",
-		qid: <ID>,			// the ID of the question that you want to get
+		"action": "getQst",
+		"qid": <ID>
 	}
 
 Output:
 
 	{
-		error: null,
-		data: {
-			qid: <ID>,		// universally unique tag for this question
-			text: "Do you think karma is real?",	// the text of the socratic question to ask
-			responses: [	
+		"error": null,
+		"data": {
+			"qid": <ID>,		                    // universally unique tag for this question
+			"text": "Do you think karma is real?",	// the text of the socratic question to ask
+			"responses": [	
 				// ordered list of responses.
 				// each has the text to display and an ID for the next question to load if chosen.
 				{ rid: <ID>, active: true, text: "Yes.", next_qid: <ID> },
@@ -88,8 +88,8 @@ The text field is required.
 Input:
 
 	{
-		action: "createQst",
-		text: "Which god do you believe in?"		// text of the question
+		"action": "createQst",
+		"text": "Which god do you believe in?"		// text of the question
 	}
 
 Output:
@@ -107,9 +107,9 @@ Modify an existing question.
 Input:
 
 	{
-		action: "updateQst",
-		qid: <ID>,						// ID of the question to update
-		text: "Which of the many gods do you believe in?",	// new text for the question
+		"action": "updateQst",
+		"qid": <ID>,						                    // ID of the question to update
+		"text": "Which of the many gods do you believe in?" 	// new text for the question
 	}
 
 Output:
@@ -124,8 +124,8 @@ Output:
 Input:
 
 	{
-		action: "deleteQst",
-		qid: <ID>,			// ID of the question to delete
+		"action": "deleteQst",
+		"qid": <ID>			// ID of the question to delete
 	}
 
 Output:
@@ -146,17 +146,17 @@ be appended to the responses for that question
 Input:
 
 	{
-		action: "createRsp",
-		text: "Jesus",			// Text of the new response
-		active: true | false	// New state of the active flag
-		qid: <ID>,				// optional ID of question to add this response to
+		"action": "createRsp",
+		"qid": <ID>,				    // optional ID of question to add this response to
+		"text": "Jesus",			  // Text of the new response
+		"active": true | false	// New state of the active flag
 	}
 
 Output:
 
 	{
 		error: null,
-		rid: <ID>				// ID of the newly created response
+		rid: <ID>				    // ID of the newly created response
 	}
 
 
@@ -170,11 +170,11 @@ If the next_qid field is present, the next_qid ID is updated.
 Input:
 
 	{
-		action: "updateRsp",
-		rid: <ID>,				// ID of the response to change
-		text: "Vishnu",			// new text
-		active: true | false	// new state of the active flag
-		next_qid: <ID>			// ID of question that this response links to, or null to unlink
+		"action": "updateRsp",
+		"rid": <ID>,				// ID of the response to change
+		"text": "Vishnu",			// new text
+		"active": true | false,	    // new state of the active flag
+		"next_qid": <ID>			// ID of question that this response links to, or null to unlink
 	}
 
 Output:
@@ -189,8 +189,8 @@ Output:
 Input:
 
 	{
-		action: "deleteRsp",
-		rid: <ID>,			// ID of the response to delete
+		"action": "deleteRsp",
+		"rid": <ID> 			    // ID of the response to delete
 	}
 
 Output:
