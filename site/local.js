@@ -97,11 +97,18 @@ clk_link = function(evt) {
 		}
 
 		text = text.trim();
+		if(text == "null") {
+			// clear link
+			api("updateRsp", { rid: rsp.rid, next_qid: null }, function(r) {
+				reload()
+			})
+		}
+		else
 		if( /^#[^\s]+$/.test(text) ) {
 			// ID of an existing question
 			var qid = text.substr(1)
 			api("updateRsp", { rid: rsp.rid, next_qid: qid }, function(r) {
-				reload() //jmp("/?qid="+qid)
+				reload()
 			})
 		}
 		else {
@@ -227,7 +234,13 @@ $(document).ready(function() {
 	}
 	else {
 		clear_conf();
-		jmp("/?qid=q1");
+		if(qd.done) {
+			$(".page.finish").show();
+		}
+		else {
+			jmp("/?qid=q1");
+			update_admin();
+		}
 	}
 
 });
