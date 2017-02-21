@@ -128,10 +128,10 @@ clk_edit_question = function() {
 	}
 }
 
-clk_yes = function() {
-	confidence = 0;		// reset confidence level
-	jmp("/?qid=q1");
-}
+//clk_yes = function() {
+//	confidence = 0;		// reset confidence level
+//	jmp("/?qid=q1");
+//}
 
 clk = function(evt) {
 	var k = "clk_" + evt.target.value.toId()
@@ -233,9 +233,10 @@ $(document).ready(function() {
 		load_qst(qid)
 	}
 	else {
-		$(".page.welcome").show();
+		//$(".page.welcome").show();
 		clear_conf();
-		update_admin();
+		jmp("/?qid=q1");
+		//update_admin();
 	}
 
 });

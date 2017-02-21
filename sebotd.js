@@ -19,7 +19,7 @@ require("g")("log5");
 DS = require("ds").DS
 
 
-/////////////////////
+//////////////////////////////////////////
 
 db = new DS("db.json");
 if(!db.questions) {
@@ -36,9 +36,8 @@ if(!db.questions) {
 	}
 }
 next_seq = function() { return db.seq += 1; }
-I("db="+o2j(db))
 
-///////////////////////////
+//////////////
 
 fetch_qst = function(qid) {
 	return db.questions[qid] || null
@@ -46,22 +45,7 @@ fetch_qst = function(qid) {
 
 fetch_rsp = function(rid) {
 	return db.responses[rid] || null
-	/*
-	var qo = db.questions
-	for(var qid in qo) {
-		var ro = qo[qid].responses
-		for(var i = 0; i < ro.length; i++) {
-			var rsp = ro[i];
-			if(rsp.rid == rid) {
-				return rsp
-			}
-		}
-	}
-	*/
-	return null
 }
-
-// stub calls that simulate the backend api calls
 
 api_getQst = function(data, cb) {
 	var qid = data.qid
@@ -198,11 +182,9 @@ api = function(act, data, cb) {
 
 }
 
-/////////////////////////////////
-
+//////////////////////////////////////////
 
 var PORT = toInt(process.argv[2]) || 12345
-
 
 http.createServer(function(req, res) {
 	var u = url.parse(req.url)
@@ -210,8 +192,6 @@ http.createServer(function(req, res) {
 
 	if(path == "/api/") {
 		var qa = querystring.parse(u.query)
-		//I("qa.data="+qa.data)
-		//I("  json="+decodeURIComponent(qa.data))
 		var data = j2o(qa.data)
 		I("API: action="+qa.action+" data="+o2j(data))
 
