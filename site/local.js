@@ -171,7 +171,9 @@ response_chosen = function(el, qst, rsp) {
 	}
 	else {
 		// end the conversation
-		jmp("/?done=1");
+		setTimeout(function() {
+			jmp("/?done=1");
+		}, 1000);
 	}
 
 }
