@@ -4,8 +4,6 @@ log = function(s) { console.log(s); }
 
 cur_qst = null		// the currently displayed question
 
-confidence = 0;		// 0 = initial confidence not yet provided
-
 
 api = function(act, data, cb) {
 
@@ -128,11 +126,6 @@ clk_edit_question = function() {
 	}
 }
 
-//clk_yes = function() {
-//	confidence = 0;		// reset confidence level
-//	jmp("/?qid=q1");
-//}
-
 clk = function(evt) {
 	var k = "clk_" + evt.target.value.toId()
 	log(k+"()")
@@ -171,9 +164,7 @@ response_chosen = function(el, qst, rsp) {
 	}
 	else {
 		// end the conversation
-		//clear_conf()
-		$(".page").hide()
-		$(".page.finish").show()
+		jmp("/?done=1");
 	}
 
 }
@@ -220,6 +211,8 @@ clear_conf = function() {
 $(document).ready(function() {
 	log("doc ready");
 
+	$(".page").hide()
+
 	$("input[type=button]").click(clk)
 
 	replicate("tpl_qst", []);
@@ -233,10 +226,8 @@ $(document).ready(function() {
 		load_qst(qid)
 	}
 	else {
-		//$(".page.welcome").show();
 		clear_conf();
 		jmp("/?qid=q1");
-		//update_admin();
 	}
 
 });
