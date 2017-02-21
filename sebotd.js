@@ -111,10 +111,8 @@ api_deleteRsp = function(data, cb) {
 	var rid = data.rid
 	if(db.responses[rid]) {
 		delete db.responses[rid]
-		db.save();
 		I("found and removed rsp "+rid)
 	}
-	cb({})
 
 	// remove any references to the response from the questions
 	var qo = db.questions
@@ -123,10 +121,13 @@ api_deleteRsp = function(data, cb) {
 		for(var i = 0; i < ro.length; i++) {
 			if(ro[i] == rid) {
 				ro = ro.splice(i, 1);
+				I("removed reference "+rid+" from qst "+qid)
 			}
 		}
 	}
+
 	db.save()
+
 	cb({})
 }
 
