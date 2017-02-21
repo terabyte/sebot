@@ -81,9 +81,8 @@ creating and deleting questions, adding responses, etc.
 
 ### createQst
 
-Create a new question.
-The question will be created with no responses.
-The responses have to be added with createRsp.
+Create a new question with no responses.
+Responses have to be added with createRsp.
 The text field is required.
 
 Input:

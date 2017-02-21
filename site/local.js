@@ -87,23 +87,33 @@ clk_link = function(evt) {
 	var rsp = evt.target.parentElement.rsp;
 	if(rsp) {
 
-		var nqid = rsp.next_qid;
-		if(nqid) {
-			if(!confirm("This response is already linked to question "+nqid+".  Sure you want to continue?")) {
+		var qid = rsp.next_qid;
+		if(qid) {
+			if(!confirm("This response is already linked to question "+qid+".  Sure you want to continue?")) {
 				return;
 			}
 		}
-		var text = prompt("Enter the text of the next question.", "");
-		if(!text) {
+		var text = prompt("Enter the text of the next question (prefix question IDs with #).", "");
+		if(!text || !text.trim()) {
 			return;
 		}
 
-		api("createQst", { text: text }, function(r) {
-			var nquid = r.qid;
-			api("updateRsp", { rid: rsp.rid, next_qid: nquid }, function(r) {
-				jmp("/?qid="+nquid)
+		text = text.trim();
+		if( /^#[^\s]+$/.test(text) ) {
+			// ID of an existing question
+			var qid = text.substr(1)
+			api("updateRsp", { rid: rsp.rid, next_qid: qid }, function(r) {
+				reload() //jmp("/?qid="+qid)
 			})
-		})
+		}
+		else {
+			api("createQst", { text: text }, function(r) {
+				var qid = r.qid;
+				api("updateRsp", { rid: rsp.rid, next_qid: qid }, function(r) {
+					jmp("/?qid="+qid)
+				})
+			})
+		}
 	}
 	
 }
@@ -172,6 +182,8 @@ load_qst = function(qid) {
 	log("load qst "+qid)
 	cur_qst = null;
 	api("getQst", {qid: qid}, function(r) {
+		if(r.error) { jmp("/"); return }
+
 		var qst = r.data
 		cur_qst = qst
 
